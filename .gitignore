@@ -1,0 +1,23 @@
+.env
+.config*.yml
+dist/
+vendor/
+prestashop/
+node_modules/
+phpstan-baseline.neon
+
+# Composer
+composer.phar
+/vendor/
+.php_cs.cache
+.php_cs
+install.lock
+composer-setup.php
+
+# Mac OS
+.DS_Store
+
+# Tests
+tests/tmp
+tests/.phpunit.result.cache
+allure-report
