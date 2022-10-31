@@ -32,7 +32,7 @@ if ($moduleManager->isInstalled("ps_eventbus")) {
   $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
 
   Media::addJsDef([
-    'contextPsEventbus' => $eventbusPresenterService->expose($this->name, ['order', 'product'], ['costumer'])
+    'contextPsEventbus' => $eventbusPresenterService->expose($this->name, ['orders', 'products'], ['customers'])
   ]);
 }
 ```
