@@ -4,9 +4,9 @@ This is a boilerplate is a module example to fasten your integration of the ps_e
 
 ## Install ps_accounts
 
-You may look at [prestashop-accounts-installer](https://github.com/PrestaShopCorp/prestashop-accounts-installer) module to easily integrate ps_accounts during the Merchant _onboarding time_ of your module, from the composer dependencies.
+You may look at [prestashop-accounts-installer](https://github.com/PrestaShopCorp/prestashop-accounts-installer) module to easily integrate ps_accounts during the Merchant *onboarding time* of your module, from the composer dependencies.
 
-You may try this to quickly download the ps_accounts module dependency at _install time_:
+You may try this to quickly download the ps_accounts module dependency at *install time*:
 
 ```php
 if (!$moduleManager->isInstalled("ps_accounts")) {
@@ -23,7 +23,7 @@ if (!$moduleManager->isInstalled("ps_accounts")) {
 
 There is no dependency to add in the composer of your module to support ps_eventbus and CloudSync features.
 
-You should try this to download the ps_eventbus module dependency at _install time_:
+You should try this to download the ps_eventbus module dependency at *install time*:
 
 ```php
 if (!$moduleManager->isInstalled("ps_eventbus")) {
@@ -50,7 +50,7 @@ if ($moduleManager->isInstalled("ps_eventbus")) {
   $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
 
   Media::addJsDef([
-    'contextPsEventbus' => $eventbusPresenterService->expose($this->name, ['info', 'modules', 'themes', 'orders'])
+    'contextPsEventbus' => $eventbusPresenterService->expose($this, ['info', 'modules', 'themes', 'orders'])
   ]);
 }
 ```
@@ -68,6 +68,8 @@ The required consents are up to your needs, you may use:
 - `taxonomies`: Enhanced categories specific to PS Facebook (advanced categories).
 - `currencies`: List of the shop currencies and conversion rates.
 - `customers`: Anonymized clients known by your shop.
+
+\* The consents `info`, `modules` and `themes` are mandatory
 
 ## Add the CDC to your config page
 
