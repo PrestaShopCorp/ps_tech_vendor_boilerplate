@@ -116,7 +116,7 @@ class Ps_tech_vendor_boilerplate extends Module
             $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
 
             Media::addJsDef([
-                'contextPsEventbus' => $eventbusPresenterService->expose($this->name, ['info', 'modules', 'themes', 'orders'])
+                'contextPsEventbus' => $eventbusPresenterService->expose($this, ['info', 'modules', 'themes', 'orders'])
             ]);
         } else {
             Media::addJsDef([
