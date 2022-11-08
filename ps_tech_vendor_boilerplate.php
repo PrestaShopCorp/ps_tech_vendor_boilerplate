@@ -113,15 +113,14 @@ class Ps_tech_vendor_boilerplate extends Module
         */
         if ($moduleManager->isInstalled("ps_eventbus")) {
             $eventbusModule =  \Module::getInstanceByName("ps_eventbus");
-            $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
+            if (version_compare($eventbusModule->version, '1.9.0', '>=')) {
 
-            Media::addJsDef([
-                'contextPsEventbus' => $eventbusPresenterService->expose($this, ['info', 'modules', 'themes', 'orders'])
-            ]);
-        } else {
-            Media::addJsDef([
-                'contextPsEventbus' => []
-            ]);
+                $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
+
+                Media::addJsDef([
+                    'contextPsEventbus' => $eventbusPresenterService->expose($this, ['info', 'modules', 'themes', 'orders'])
+                ]);
+            }
         }
 
         return $output;
