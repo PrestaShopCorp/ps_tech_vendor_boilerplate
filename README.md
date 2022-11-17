@@ -4,9 +4,9 @@ This is a boilerplate is a module example to fasten your integration of the ps_e
 
 ## Install ps_accounts
 
-You may look at [prestashop-accounts-installer](https://github.com/PrestaShopCorp/prestashop-accounts-installer) module to easily integrate ps_accounts during the Merchant *onboarding time* of your module, from the composer dependencies.
+You may look at [prestashop-accounts-installer](https://github.com/PrestaShopCorp/prestashop-accounts-installer) module to easily integrate ps*accounts during the Merchant \_onboarding time* of your module, from the composer dependencies.
 
-You may try this to quickly download the ps_accounts module dependency at *install time*:
+You may try this to quickly download the ps*accounts module dependency at \_install time*:
 
 ```php
 if (!$moduleManager->isInstalled("ps_accounts")) {
@@ -23,7 +23,7 @@ if (!$moduleManager->isInstalled("ps_accounts")) {
 
 There is no dependency to add in the composer of your module to support ps_eventbus and CloudSync features.
 
-You should try this to download the ps_eventbus module dependency at *install time*:
+You should try this to download the ps*eventbus module dependency at \_install time*:
 
 ```php
 if (!$moduleManager->isInstalled("ps_eventbus")) {
@@ -69,7 +69,7 @@ The required consents are up to your needs, you may use:
 - `currencies`: List of the shop currencies and conversion rates.
 - `customers`: Anonymized clients known by your shop.
 
-\* The consents `info`, `modules` and `themes` are mandatory
+| `info`, `modules` and `themes` consents are mandatory.
 
 ## Add the CDC to your config page
 
@@ -88,19 +88,22 @@ It will be added to the configuration page of your module for example in `/views
 And where you want to display it:
 
 ```html
-<div id="ps_eventbus_installer_container"></div>
+<div id="prestashop-cloudsync"></div>
 ```
 
 Now instanciate the component:
 
 ```html
 <script>
-  ShareConsentBar({
-    context: window.contextPsEventbus,
-    onConsentValidate: () => {
-      console.log("User validate the consents");
-    },
-  }).render("#ps_eventbus_installer_container");
+  const cdc = window.cloudSyncSharingConsent;
+
+  cdc.init("#prestashop-cloudsync");
+  cdc.on("OnboardingCompleted", (isCompleted) => {
+    console.log("OnboardingCompleted", isCompleted);
+  });
+  cdc.isOnboardingCompleted((isCompleted) => {
+    console.log("Onboarding is already Completed", isCompleted);
+  });
 </script>
 ```
 
