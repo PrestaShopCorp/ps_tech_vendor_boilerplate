@@ -97,7 +97,7 @@ Now instanciate the component:
 <script>
   const cdc = window.cloudSyncSharingConsent;
 
-  cdc.init("#prestashop-cloudsync");
+  cdc.init();
   cdc.on("OnboardingCompleted", (isCompleted) => {
     console.log("OnboardingCompleted", isCompleted);
   });
@@ -106,5 +106,7 @@ Now instanciate the component:
   });
 </script>
 ```
+
+_If you prefer to set the rendering into another element you can pass the querySelector to the init mehthod like : `cdc.init("#consents-box")`_
 
 A callback function is available, it's called when the user accept the consents.
