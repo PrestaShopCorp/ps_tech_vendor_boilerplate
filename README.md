@@ -95,13 +95,12 @@ Now instanciate the component:
 
 ```html
 <script>
-  const cdc = window.cloudSyncSharingConsent;
-
-  cdc.init();
-  cdc.on("OnboardingCompleted", (isCompleted) => {
+  const msc = window.cloudSyncSharingConsent;
+  msc.init();
+  msc.on("OnboardingCompleted", (isCompleted) => {
     console.log("OnboardingCompleted", isCompleted);
   });
-  cdc.isOnboardingCompleted((isCompleted) => {
+  msc.isOnboardingCompleted((isCompleted) => {
     console.log("Onboarding is already Completed", isCompleted);
   });
 </script>
