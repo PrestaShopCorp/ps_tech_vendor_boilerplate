@@ -1,0 +1,5 @@
+techvendor_get_info:
+  path: /addonsHelper/install
+  methods: [POST]
+  defaults:
+    _controller: 'Prestashop\AddonsHelper\Controller\Admin\MyAddonsController::installModule'

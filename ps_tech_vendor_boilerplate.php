@@ -25,7 +25,7 @@
  *  International Registered Trademark & Property of PrestaShop SA
  */
 
-use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
+use Prestashop\AddonsHelper\AddonsHelper;
 
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -33,10 +33,6 @@ if (!defined('_PS_VERSION_')) {
 
 class Ps_tech_vendor_boilerplate extends Module
 {
-    /**
-     * @var \PrestaShop\ModuleLibServiceContainer\DependencyInjection\ServiceContainer
-     */
-    private $serviceContainer;
     public function __construct()
     {
         $this->name = 'ps_tech_vendor_boilerplate';
@@ -52,35 +48,16 @@ class Ps_tech_vendor_boilerplate extends Module
 
         parent::__construct();
 
+        require_once __DIR__ . '/vendor/autoload.php';
+
         $this->displayName = $this->l('Cloudsync module template');
         $this->description = $this->l('This is a template module for Cloudsync');
 
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
-
-        $this->serviceContainer = new \PrestaShop\ModuleLibServiceContainer\DependencyInjection\ServiceContainer(
-            $this->name,
-            $this->getLocalPath()
-        );
     }
 
     public function install()
     {
-        $moduleManager = ModuleManagerBuilder::getInstance()->build();
-
-        if (!$moduleManager->isInstalled("ps_eventbus")) {
-            $moduleManager->install("ps_eventbus");
-        } else if (!$moduleManager->isEnabled("ps_eventbus")) {
-            $moduleManager->enable("ps_eventbus");
-        }
-        $moduleManager->upgrade('ps_eventbus');
-
-
-
-        /*
-        $eventbusModule =  \Module::getInstanceByName("ps_eventbus");
-        $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
-        $eventbusPresenterService->init();
-*/
         return parent::install();
     }
 
@@ -99,29 +76,22 @@ class Ps_tech_vendor_boilerplate extends Module
 
         $output = $this->context->smarty->fetch($this->local_path . 'views/templates/admin/configure.tpl');
 
-        $moduleManager = ModuleManagerBuilder::getInstance()->build();
-        /*
-        if ($moduleManager->isInstalled("ps_accounts")) {
+        $addonsHelper = new AddonsHelper();
 
-            $accountsModule =  \Module::getInstanceByName("ps_accounts");
-            $accountPresenterService = $accountsModule->getService('PrestaShop\Module\PsAccounts\Presenter\PsAccountsPresenter');
+
+        $eventbusModule = $addonsHelper->getModule('ps_eventbus', '1.9.0');
+        if ($eventbusModule) {
+            $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
 
             Media::addJsDef([
-                'contextPsAccounts' => $accountPresenterService->present($this->name),
+                'contextPsEventbus' => $eventbusPresenterService->expose($this, ['info', 'modules', 'themes', 'orders'])
             ]);
         }
-        */
-        if ($moduleManager->isInstalled("ps_eventbus")) {
-            $eventbusModule =  \Module::getInstanceByName("ps_eventbus");
-            if (version_compare($eventbusModule->version, '1.9.0', '>=')) {
 
-                $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
 
-                Media::addJsDef([
-                    'contextPsEventbus' => $eventbusPresenterService->expose($this, ['info', 'modules', 'themes', 'orders'])
-                ]);
-            }
-        }
+        Media::addJsDef([
+            'moduleInstallerHelper' => $addonsHelper->expose(),
+        ]);
 
         return $output;
     }
