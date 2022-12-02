@@ -78,6 +78,9 @@ class Ps_tech_vendor_boilerplate extends Module
 
         $addonsHelper = new AddonsHelper();
 
+        Media::addJsDef([
+            'addonsHelper' => $addonsHelper->expose(),
+        ]);
 
         $eventbusModule = $addonsHelper->getModule('ps_eventbus', '1.9.0');
         if ($eventbusModule) {
@@ -87,11 +90,6 @@ class Ps_tech_vendor_boilerplate extends Module
                 'contextPsEventbus' => $eventbusPresenterService->expose($this, ['info', 'modules', 'themes', 'orders'])
             ]);
         }
-
-
-        Media::addJsDef([
-            'moduleInstallerHelper' => $addonsHelper->expose(),
-        ]);
 
         return $output;
     }
