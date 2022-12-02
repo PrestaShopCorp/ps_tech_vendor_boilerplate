@@ -1,5 +1,16 @@
-techvendor_get_info:
+#resource: "../vendor/prestashop/addons_helper/config/routes.yml"
+addonsHelper_installModule:
   path: /addonsHelper/install
   methods: [POST]
   defaults:
     _controller: 'Prestashop\AddonsHelper\Controller\Admin\MyAddonsController::installModule'
+addonsHelper_enableModule:
+  path: /addonsHelper/enable
+  methods: [POST]
+  defaults:
+    _controller: 'Prestashop\AddonsHelper\Controller\Admin\MyAddonsController::enableModule'
+addonsHelper_getModule:
+  path: /addonsHelper/getModule
+  methods: [GET]
+  defaults:
+    _controller: 'Prestashop\AddonsHelper\Controller\Admin\MyAddonsController::getModule'
