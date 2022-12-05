@@ -4,49 +4,45 @@ This is a boilerplate is a module example to fasten your integration of the ps_e
 
 ## Install ps_accounts
 
-You may look at [prestashop-accounts-installer](https://github.com/PrestaShopCorp/prestashop-accounts-installer) module to easily integrate ps*accounts during the Merchant \_onboarding time* of your module, from the composer dependencies.
+You may look at [prestashop_addons_helper](https://github.com/PrestaShopCorp/prestashop_addons_helper) module to easily integrate other modules during the Merchant _onboarding time_ of your module, from the composer dependencies.
 
 You may try this to quickly download the ps*accounts module dependency at \_install time*:
 
 ```php
-if (!$moduleManager->isInstalled("ps_accounts")) {
-    $moduleManager->install("ps_accounts");
-} else if (!$moduleManager->isEnabled("ps_accounts")) {
-    $moduleManager->enable("ps_accounts");
-    $moduleManager->upgrade('ps_accounts');
-} else {
-    $moduleManager->upgrade('ps_accounts');
-}
+$addonsHelper = new AddonsHelper();
+$addonsHelper->installModule("ps_accounts")
 ```
 
 ## Install ps_eventbus
 
-There is no dependency to add in the composer of your module to support ps_eventbus and CloudSync features.
+Using the dependency [prestashop-addons-helper](https://github.com/PrestaShopCorp/prestashop-addons-helper) in the composer of your module.
 
 You should try this to download the ps*eventbus module dependency at \_install time*:
 
 ```php
-if (!$moduleManager->isInstalled("ps_eventbus")) {
-    $moduleManager->install("ps_eventbus");
-} else if (!$moduleManager->isEnabled("ps_eventbus")) {
-    $moduleManager->enable("ps_eventbus");
-    $moduleManager->upgrade('ps_eventbus');
-} else {
-    $moduleManager->upgrade('ps_eventbus');
-}
+$addonsHelper = new AddonsHelper();
+$addonsHelper->installModule("ps_eventbus")
 ```
+
+We recomend to let the user install dependencies through the configuration page instead of taking more time at the installation time and hidding it to the customer
 
 ## Add context for the CDC
 
 To allow the merchant to share its data with your services, you have to pair your module with a Cross Domain Component.
+You also need to expose the `addonsHelper` to allow the merchant to install the other modules in the configuration page.
 
 You need to expose some context to your configuration page. In the `getContent()` method you have to configure the context that will be exposed to the CDC using the PresenterService of ps_eventbus:
 
 ```php
-$moduleManager = ModuleManagerBuilder::getInstance()->build();
+$addonsHelper = new AddonsHelper();
 
-if ($moduleManager->isInstalled("ps_eventbus")) {
-  $eventbusModule =  \Module::getInstanceByName("ps_eventbus");
+Media::addJsDef([
+    'addonsHelper' => $addonsHelper->expose(),
+]);
+
+$eventbusModule = $addonsHelper->getModule('ps_eventbus', '1.9.0');
+
+if ($eventbusModule) {
   $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
 
   Media::addJsDef([

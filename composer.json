@@ -1,3 +1,29 @@
 {
-  "require": {}
+  "autoload": {
+    "classmap": [
+      "ps_tech_vendor_boilerplate.php"
+    ],
+    "psr-4": {
+      "Cloudsync\\PsTechVendorBoilerplate\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../prestashop_addons_helper"
+    }
+  ],
+  "require": {
+    "prestashop/module-lib-service-container": "^2.0",
+    "prestashop/addons_helper": "@dev"
+  },
+  "config": {
+    "preferred-install": "dist",
+    "classmap-authoritative": true,
+    "optimize-autoloader": true,
+    "prepend-autoloader": false,
+    "platform": {
+      "php": "7.3"
+    }
+  }
 }
