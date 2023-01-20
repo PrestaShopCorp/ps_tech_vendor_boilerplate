@@ -45,13 +45,15 @@ You need to expose some context to your configuration page. In the `getContent()
 ```php
 $moduleManager = ModuleManagerBuilder::getInstance()->build();
 
-if ($moduleManager->isInstalled("ps_eventbus")) {
-  $eventbusModule =  \Module::getInstanceByName("ps_eventbus");
-  $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
+if ($moduleManager->isInstalled('ps_eventbus')) {
+    $eventbusModule = \Module::getInstanceByName('ps_eventbus');
+    if ($eventbusModule && version_compare($eventbusModule->version, '1.9.0', '>=')) {
+        $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
 
-  Media::addJsDef([
-    'contextPsEventbus' => $eventbusPresenterService->expose($this, ['info', 'modules', 'themes', 'orders'])
-  ]);
+        Media::addJsDef([
+            'contextPsEventbus' => $eventbusPresenterService->expose($this->module, ['info', 'products', 'currencies', 'categories']),
+        ]);
+    }
 }
 ```
 
