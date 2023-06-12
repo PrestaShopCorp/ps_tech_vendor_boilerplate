@@ -57,17 +57,20 @@ if ($moduleManager->isInstalled("ps_eventbus")) {
 
 The required consents are up to your needs, you may use:
 
-- `info`: Shop technical data (PrestaShop version, PHP version etc).
-- `modules`: List of installed modules on the shop.
-- `themes`: List of installed themes on the shop.
-- `carts`: Shopping cart data of the shop (current carts, abandoned carts, cart contents, product details)
-- `carriers`: Characteristics of the carriers proposed by the merchant (shipping rates, shipping weight, countries, shipping zones).
-- `categories`: The product categories offered by the shop.
-- `orders`: The orders data (order ID, order content, order status and history).
-- `products`: The products offered by the shop (products, variations, specific prices)
-- `taxonomies`: Enhanced categories specific to PS Facebook (advanced categories).
-- `currencies`: List of the shop currencies and conversion rates.
-- `customers`: Anonymized clients known by your shop.
+- `info` (mandatory): The shop technical data such as the version of PrestaShop or PHP (read only)
+- `modules` (mandatory): The list of modules installed on the shop (read only)
+- `themes` (mandatory): The list of themes installed on the shop (read only)
+- `carts`: Information about the shopping carts of the shop (read only)
+- `carriers`: The characteristics of the carriers available on the shop (read only)
+- `categories`: The list of product categories of the shop (read only)
+- `currencies`: The list of currencies available in the shop (read only)
+- `customers`: The anonymized list of the shop customers (read only)
+- `orders`: Information about orders placed on the shop (read only)
+- `products`: The list of products available on the shop (read only)
+- `stocks`: The list of stocks and associated movements on the shop (read only)
+- `stores`: The list of stores on the shop (read only)
+- `taxonomies`: Advanced categories available on the shop (read only)
+- `wishlists`: The anonymized wishlists of the customers (read only)
 
 | `info`, `modules` and `themes` consents are mandatory.
 
