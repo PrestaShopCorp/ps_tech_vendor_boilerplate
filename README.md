@@ -43,15 +43,17 @@ To allow the merchant to share its data with your services, you have to pair you
 You need to expose some context to your configuration page. In the `getContent()` method you have to configure the context that will be exposed to the CDC using the PresenterService of ps_eventbus:
 
 ```php
-$moduleManager = ModuleManagerBuilder::getInstance()->build();
+$moduleManager = PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder::getInstance()->build();
 
-if ($moduleManager->isInstalled("ps_eventbus")) {
-  $eventbusModule =  \Module::getInstanceByName("ps_eventbus");
-  $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
+if ($moduleManager->isInstalled('ps_eventbus')) {
+    $eventbusModule = \Module::getInstanceByName('ps_eventbus');
+    if ($eventbusModule && version_compare($eventbusModule->version, '1.9.0', '>=')) {
+        $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
 
-  Media::addJsDef([
-    'contextPsEventbus' => $eventbusPresenterService->expose($this, ['info', 'modules', 'themes', 'orders'])
-  ]);
+        Media::addJsDef([
+            'contextPsEventbus' => $eventbusPresenterService->expose($this, ['info', 'modules', 'themes', 'orders']),
+        ]);
+    }
 }
 ```
 
