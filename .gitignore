@@ -6,6 +6,11 @@ prestashop/
 node_modules/
 phpstan-baseline.neon
 
+# Editors
+*.iml
+.idea
+.vscode
+
 # Composer
 composer.phar
 /vendor/
