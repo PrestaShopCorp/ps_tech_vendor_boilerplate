@@ -127,10 +127,13 @@ class Ps_tech_vendor_boilerplate extends Module
                         'categories',
                         'currencies',
                         'customers',
+                        'languages',
+                        'manufacturers',
                         'orders',
                         'products',
                         'stocks',
                         'stores',
+                        'suppliers',
                         'taxonomies',
                         'wishlists'
                     ])

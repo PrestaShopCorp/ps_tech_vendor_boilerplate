@@ -67,10 +67,13 @@ The required consents are up to your needs, you may use:
 - `categories`: The list of product categories of the shop (read only)
 - `currencies`: The list of currencies available in the shop (read only)
 - `customers`: The anonymized list of the shop customers (read only)
+- `languages`: Languages used by the shop (read only)
+- `manufacturers`: List of manufacturers of the products sold by the shop (read only)
 - `orders`: Information about orders placed on the shop (read only)
 - `products`: The list of products available on the shop (read only)
 - `stocks`: The list of stocks and associated movements on the shop (read only)
 - `stores`: The list of stores on the shop (read only)
+- `suppliers`: List of suppliers of shop (read only)
 - `taxonomies`: Advanced categories available on the shop (read only)
 - `wishlists`: The anonymized wishlists of the customers (read only)
 
