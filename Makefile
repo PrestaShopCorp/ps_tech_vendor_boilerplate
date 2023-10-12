@@ -55,37 +55,15 @@ composer.phar:
 vendor: composer.phar
 	./composer.phar install --no-dev -o;
 
-# ----------------------------------------------------------------
-
-
 vendor/bin/php-cs-fixer: composer.phar
 	./composer.phar install --ignore-platform-reqs
 
-vendor/bin/phpunit: composer.phar
-	./composer.phar install --ignore-platform-reqs
-
-vendor/bin/phpstan: composer.phar
-	./composer.phar install --ignore-platform-reqs
-
-prestashop:
-	@mkdir -p ./prestashop
-
-prestashop/prestashop-${PS_VERSION}: prestashop composer.phar
-	@if [ ! -d "prestashop/prestashop-${PS_VERSION}" ]; then \
-		git clone --depth 1 --branch ${PS_VERSION} https://github.com/PrestaShop/PrestaShop.git prestashop/prestashop-${PS_VERSION}; \
-		./composer.phar -d ./prestashop/prestashop-${PS_VERSION} install; \
-	fi;
-
 # target: test                                   - Static and unit testing
-test: composer-validate lint php-lint phpstan phpunit translation-validate
+test: composer-validate lint php-lint
 
 # target: composer-validate                      - Validates composer.json and composer.lock
 composer-validate: vendor
 	@./composer.phar validate --no-check-publish
-
-# target: translation-validate                   - Validates the translation files in translations/ directory
-translation-validate:
-	php tests/translation.test.php
 
 # target: lint                                   - Lint the code and expose errors
 lint: vendor/bin/php-cs-fixer
@@ -99,70 +77,3 @@ lint-fix: vendor/bin/php-cs-fixer
 php-lint:
 	@git ls-files | grep -E '.*\.(php)' | xargs -n1 php -l -n | (! grep -v "No syntax errors" );
 	@echo "php $(shell php -r 'echo PHP_VERSION;') lint passed";
-
-# target: phpunit                                - Run phpunit tests
-phpunit: vendor/bin/phpunit
-	vendor/bin/phpunit --configuration=./tests/phpunit.xml;
-
-# target: phpunit-coverage                       - Run phpunit with coverage and allure
-phpunit-coverage: vendor/bin/phpunit
-	php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-html ./coverage-reports/coverage-html --configuration=./tests/phpunit-coverage.xml;
-
-# target: phpstan                                - Run phpstan
-phpstan: vendor/bin/phpstan prestashop/prestashop-${PS_VERSION}
-	_PS_ROOT_DIR_=${PS_ROOT_DIR} vendor/bin/phpstan analyse --memory-limit=256M --configuration=./tests/phpstan/phpstan.neon;
-
-# target: phpstan-baseline                       - Generate a phpstan baseline to ignore all errors
-phpstan-baseline: prestashop/prestashop-${PS_VERSION} vendor/bin/phpstan
-	_PS_ROOT_DIR_=${PS_ROOT_DIR} vendor/bin/phpstan analyse --generate-baseline --memory-limit=256M --configuration=./tests/phpstan/phpstan.neon;
-
-# target: docker-test                            - Static and unit testing in docker
-docker-test: docker-lint docker-phpstan docker-phpunit
-
-# target: docker-lint                            - Lint the code in docker
-docker-lint:
-	docker build --build-arg BUILDPLATFORM=${BUILDPLATFORM} --build-arg PHP_VERSION=${PHP_VERSION} -t ${TESTING_DOCKER_IMAGE} -f dev-tools.Dockerfile .;
-	docker run --rm -v $(shell pwd):/src ${TESTING_DOCKER_IMAGE} lint;
-
-# target: docker-lint-fix                        - Lint and fix the code in docker
-docker-lint-fix:
-	docker build --build-arg BUILDPLATFORM=${BUILDPLATFORM} --build-arg PHP_VERSION=${PHP_VERSION} -t ${TESTING_DOCKER_IMAGE} -f dev-tools.Dockerfile .;
-	docker run --rm -v $(shell pwd):/src ${TESTING_DOCKER_IMAGE} lint-fix;
-
-# target: docker-php-lint                        - Lint the code with php in docker
-docker-php-lint:
-	docker build --build-arg BUILDPLATFORM=${BUILDPLATFORM} --build-arg PHP_VERSION=${PHP_VERSION} -t ${TESTING_DOCKER_IMAGE} -f dev-tools.Dockerfile .;
-	docker run --rm -v $(shell pwd):/src ${TESTING_DOCKER_IMAGE} php-lint;
-
-# target: docker-phpunit                         - Run phpunit in docker
-docker-phpunit: prestashop/prestashop-${PS_VERSION}
-	docker build --build-arg BUILDPLATFORM=${BUILDPLATFORM} --build-arg PHP_VERSION=${PHP_VERSION} -t ${TESTING_DOCKER_IMAGE} -f dev-tools.Dockerfile .;
-	docker run --rm -e _PS_ROOT_DIR_=/src/prestashop/prestashop-${PS_VERSION} -v $(shell pwd):/src ${TESTING_DOCKER_IMAGE} phpunit;
-
-# target: docker-phpunit-coverage                - Run phpunit in docker
-docker-phpunit-coverage: prestashop/prestashop-${PS_VERSION}
-	docker build --build-arg BUILDPLATFORM=${BUILDPLATFORM} --build-arg PHP_VERSION=${PHP_VERSION} -t ${TESTING_DOCKER_IMAGE} -f dev-tools.Dockerfile .;
-	docker run --rm -e _PS_ROOT_DIR_=/src/prestashop/prestashop-${PS_VERSION} -v $(shell pwd):/src ${TESTING_DOCKER_IMAGE} phpunit-coverage;
-
-# target: docker-phpstan                         - Run phpstan in docker
-docker-phpstan: prestashop/prestashop-${PS_VERSION}
-	docker build --build-arg BUILDPLATFORM=${BUILDPLATFORM} --build-arg PHP_VERSION=${PHP_VERSION} -t ${TESTING_DOCKER_IMAGE} -f dev-tools.Dockerfile .;
-	docker run --rm -e _PS_ROOT_DIR_=/src/prestashop/prestashop-${PS_VERSION} -v $(shell pwd):/src ${TESTING_DOCKER_IMAGE} phpstan;
-
-bps177: build-ps-177
-ata177: all-tests-actions-177
-rda177: run-docker-actions-177
-build-ps-177:
-	docker exec -i prestashop-177 sh -c "rm -rf /var/www/html/install"
-	docker exec -i prestashop-177 sh -c "mv /var/www/html/admin /var/www/html/admin1"
-	mysql -h 127.0.0.1 -P 9001 --protocol=tcp -u root -pprestashop prestashop < $(shell pwd)/tests/System/Seed/Database/177.sql
-	docker exec -i prestashop-177 sh -c "cd /var/www/html && php  bin/console prestashop:module install eventBus"
-
-run-docker-actions-177:
-	docker-compose up -d --build --force-recreate prestashop-177
-
-all-tests-actions-177:
-	make rda177
-	make bps177
-	docker exec -i prestashop-177 sh -c "cd /var/www/html/modules/ps_tech_vendor_boilerplate && php vendor/bin/phpunit -c tests/phpunit.xml"
-

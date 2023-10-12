@@ -1,7 +1,6 @@
 <?php
-
-/**
- * 2007-2022 PrestaShop
+/*
+ * 2007-2023 PrestaShop
  *
  * NOTICE OF LICENSE
  *
@@ -10,8 +9,8 @@
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/afl-3.0.php
  * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@prestashop.com so we can send you a copy immediately.
+ * obtain it through the world-wide-web, please email
+ * license@prestashop.com, so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
@@ -22,7 +21,8 @@
  * @author    PrestaShop SA <contact@prestashop.com>
  * @copyright 2007-2023 PrestaShop SA
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
- *  International Registered Trademark & Property of PrestaShop SA
+ * International Registered Trademark & Property of PrestaShop SA
+ *
  */
 
 use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
@@ -42,8 +42,8 @@ class Ps_tech_vendor_boilerplate extends Module
     {
         $this->name = 'ps_tech_vendor_boilerplate';
         $this->tab = 'content_management';
-        $this->version = '1.0.0';
-        $this->author = 'Mika';
+        $this->version = 'x.y.z';
+        $this->author = 'PrestaShop';
         $this->need_instance = 0;
 
         /**
@@ -53,8 +53,8 @@ class Ps_tech_vendor_boilerplate extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->l('Cloudsync module template');
-        $this->description = $this->l('This is a template module for Cloudsync');
+        $this->displayName = $this->l('PrestaShop Tech Vendor Boilerplate');
+        $this->description = $this->l('This is a template module for CloudSync');
 
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
 

@@ -30,3 +30,5 @@ allure-report
 # Sonar
 .scannerwork
 sonar-project.properties
+
+cache

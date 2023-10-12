@@ -1,3 +1,19 @@
 {
-  "require": {}
+  "name": "prestashopcorp/ps_tech_vedor_boilerplate",
+  "description": "This is a template module for CloudSync",
+  "type": "prestashop-module",
+  "authors": [
+    {
+      "name": "CloudSync",
+      "email": "cloudsync-support@prestashop.com",
+      "homepage": "https://prestashop.com",
+      "role": "Developer"
+    }
+  ],
+  "license": "AFL-3.0",
+  "require": {},
+  "require-dev": {
+    "prestashop/php-dev-tools": "v4.3.0",
+    "friendsofphp/php-cs-fixer": "v3.34.1"
+  }
 }
