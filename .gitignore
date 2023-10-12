@@ -26,3 +26,7 @@ composer-setup.php
 tests/tmp
 tests/.phpunit.result.cache
 allure-report
+
+# Sonar
+.scannerwork
+sonar-project.properties

@@ -1,0 +1,13 @@
+config
+sql
+translations
+upgrade
+vendor
+views
+composer.json
+composer.lock
+ps_tech_vendor_boilerplate.php
+logo.png
+config.xml
+LICENCE
+README.md
