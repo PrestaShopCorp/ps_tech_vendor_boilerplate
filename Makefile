@@ -1,11 +1,11 @@
-.PHONY: help build version zip zip-inte zip-preprod zip-prod build test composer-validate lint php-lint lint-fix phpunit phpstan phpstan-baseline docker-test docker-lint docker-lint docker-phpunit docker-phpstan
+.PHONY: help build version zip build test composer-validate lint php-lint lint-fix phpunit phpstan phpstan-baseline docker-php-lint
 PHP = $(shell command -v php >/dev/null 2>&1 || { echo >&2 "PHP is not installed."; exit 1; } && which php)
 VERSION ?= $(shell git describe --tags 2> /dev/null || echo "0.0.0")
 SEM_VERSION ?= $(shell echo ${VERSION} | sed 's/^v//')
 PACKAGE ?= ps_tech_vendor_boilerplate-${VERSION}
 BUILDPLATFORM ?= linux/amd64
 TESTING_DOCKER_IMAGE ?= ps-eventbus-testing:latest
-TESTING_DOCKER_BASE_IMAGE ?= phpdockerio/php80-cli
+#TESTING_DOCKER_BASE_IMAGE ?= phpdockerio/php80-cli
 PHP_VERSION ?= 8.2
 PS_VERSION ?= 1.7.8.7
 PS_ROOT_DIR ?= $(shell pwd)/prestashop/prestashop-${PS_VERSION}
@@ -77,3 +77,8 @@ lint-fix: vendor/bin/php-cs-fixer
 php-lint:
 	@git ls-files | grep -E '.*\.(php)' | xargs -n1 php -l -n | (! grep -v "No syntax errors" );
 	@echo "php $(shell php -r 'echo PHP_VERSION;') lint passed";
+
+# target: docker-php-lint                        - Lint the code with php in docker
+docker-php-lint:
+	docker build --build-arg BUILDPLATFORM=${BUILDPLATFORM} --build-arg PHP_VERSION=${PHP_VERSION} -t ${TESTING_DOCKER_IMAGE} -f dev-tools.Dockerfile .;
+	docker run --rm -v $(shell pwd):/src ${TESTING_DOCKER_IMAGE} php-lint;

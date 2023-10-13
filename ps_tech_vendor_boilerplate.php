@@ -46,7 +46,7 @@ class Ps_tech_vendor_boilerplate extends Module
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
 
-        /**
+        /*
          * Set $this->bootstrap to true if your module is compliant with bootstrap (PrestaShop 1.6)
          */
         $this->bootstrap = true;
@@ -56,7 +56,7 @@ class Ps_tech_vendor_boilerplate extends Module
         $this->displayName = $this->l('PrestaShop Tech Vendor Boilerplate');
         $this->description = $this->l('This is a template module for CloudSync');
 
-        $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = ['min' => '1.6', 'max' => _PS_VERSION_];
 
         $this->serviceContainer = new \PrestaShop\ModuleLibServiceContainer\DependencyInjection\ServiceContainer(
             $this->name,
@@ -68,13 +68,12 @@ class Ps_tech_vendor_boilerplate extends Module
     {
         $moduleManager = ModuleManagerBuilder::getInstance()->build();
 
-        if (!$moduleManager->isInstalled("ps_eventbus")) {
-            $moduleManager->install("ps_eventbus");
-        } else if (!$moduleManager->isEnabled("ps_eventbus")) {
-            $moduleManager->enable("ps_eventbus");
+        if (!$moduleManager->isInstalled('ps_eventbus')) {
+            $moduleManager->install('ps_eventbus');
+        } elseif (!$moduleManager->isEnabled('ps_eventbus')) {
+            $moduleManager->enable('ps_eventbus');
         }
         $moduleManager->upgrade('ps_eventbus');
-
 
         /*
         $eventbusModule =  \Module::getInstanceByName("ps_eventbus");
@@ -84,17 +83,11 @@ class Ps_tech_vendor_boilerplate extends Module
         return parent::install();
     }
 
-    public function uninstall()
-    {
-        return parent::uninstall();
-    }
-
     /**
      * Load the configuration form
      */
     public function getContent()
     {
-
         $this->context->smarty->assign('module_dir', $this->_path);
 
         $output = $this->context->smarty->fetch($this->local_path . 'views/templates/admin/configure.tpl');
@@ -111,10 +104,9 @@ class Ps_tech_vendor_boilerplate extends Module
             ]);
         }
         */
-        if ($moduleManager->isInstalled("ps_eventbus")) {
-            $eventbusModule =  \Module::getInstanceByName("ps_eventbus");
+        if ($moduleManager->isInstalled('ps_eventbus')) {
+            $eventbusModule = \Module::getInstanceByName('ps_eventbus');
             if (version_compare($eventbusModule->version, '1.9.0', '>=')) {
-
                 $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
 
                 Media::addJsDef([
@@ -135,8 +127,8 @@ class Ps_tech_vendor_boilerplate extends Module
                         'stores',
                         'suppliers',
                         'taxonomies',
-                        'wishlists'
-                    ])
+                        'wishlists',
+                    ]),
                 ]);
             }
         }
@@ -159,7 +151,7 @@ class Ps_tech_vendor_boilerplate extends Module
 
         $helper->identifier = $this->identifier;
 
-        return $helper->generateForm(array($this->getConfigForm()));
+        return $helper->generateForm([$this->getConfigForm()]);
     }
 
     /**
@@ -167,7 +159,7 @@ class Ps_tech_vendor_boilerplate extends Module
      */
     protected function getConfigForm()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -175,6 +167,6 @@ class Ps_tech_vendor_boilerplate extends Module
      */
     protected function getConfigFormValues()
     {
-        return array();
+        return [];
     }
 }

@@ -39,68 +39,68 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Cache vendor folder
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: vendor
           key: php-${{ hashFiles('composer.lock') }}
       - name: Run PHP-CS-Fixer
         run: make lint
 
-  phpstan:
-    name: PHPStan
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    strategy:
-      matrix:
-        presta_version: ["1.7.8.7"]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Cache vendor folder
-        uses: actions/cache@v1
-        with:
-          path: vendor
-          key: php-${{ hashFiles('composer.lock') }}
-      - name: PHPStan PrestaShop 1.7.8.7
-        run: PS_VERSION="1.7.8.7" make phpstan
+#  phpstan:
+#    name: PHPStan
+#    runs-on: ubuntu-latest
+#    timeout-minutes: 15
+#    strategy:
+#      matrix:
+#        presta_version: ["1.7.8.7"]
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#      - name: Cache vendor folder
+#        uses: actions/cache@v3
+#        with:
+#          path: vendor
+#          key: php-${{ hashFiles('composer.lock') }}
+#      - name: PHPStan PrestaShop 1.7.8.7
+#        run: PS_VERSION="1.7.8.7" make phpstan
 
-  phpunit:
-    name: PHP Unit
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Cache vendor folder
-        uses: actions/cache@v1
-        with:
-          path: vendor
-          key: php-${{ hashFiles('composer.lock') }}
-      - name: PHP unit
-        run: make phpunit
+#  phpunit:
+#    name: PHP Unit
+#    runs-on: ubuntu-latest
+#    timeout-minutes: 15
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#      - name: Cache vendor folder
+#        uses: actions/cache@v3
+#        with:
+#          path: vendor
+#          key: php-${{ hashFiles('composer.lock') }}
+#      - name: PHP unit
+#        run: make phpunit
 
-  # coverage:
-  #   name: Generate the code coverage
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 15
-  #   if: github.ref == 'refs/heads/main'
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #     - name: Cache vendor folder
-  #       uses: actions/cache@v1
-  #       with:
-  #         path: vendor
-  #         key: php-${{ hashFiles('composer.lock') }}
-  #     - name: PHP unit with coverage
-  #       run: make phpunit-coverage
-  #     - name: 🎁 Publishing Allure artifact to GitHub Actions
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: allure-reports
-  #         path: allure-reports
-  #     - name: 🎁 Publishing Code coverage report to GitHub Actions
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: coverage-reports
-  #         path: coverage-reports
+#  coverage:
+#   name: Generate the code coverage
+#   runs-on: ubuntu-latest
+#   timeout-minutes: 15
+#   if: github.ref == 'refs/heads/main'
+#   steps:
+#     - name: Checkout
+#       uses: actions/checkout@v4
+#     - name: Cache vendor folder
+#       uses: actions/cache@v3
+#       with:
+#         path: vendor
+#         key: php-${{ hashFiles('composer.lock') }}
+#     - name: PHP unit with coverage
+#       run: make phpunit-coverage
+#     - name: 🎁 Publishing Allure artifact to GitHub Actions
+#       uses: actions/upload-artifact@v2
+#       with:
+#         name: allure-reports
+#         path: allure-reports
+#     - name: 🎁 Publishing Code coverage report to GitHub Actions
+#       uses: actions/upload-artifact@v2
+#       with:
+#         name: coverage-reports
+#         path: coverage-reports

@@ -24,10 +24,10 @@
  * International Registered Trademark & Property of PrestaShop SA
  *
  */
-$sql = array();
+$sql = [];
 
 foreach ($sql as $query) {
-    if (Db::getInstance()->execute($query) == false) {
+    if (!Db::getInstance()->execute($query)) {
         return false;
     }
 }
