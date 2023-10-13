@@ -6,7 +6,7 @@ parameters:
     - ../../config
     - ../../upgrade
     - ../../ps_tech_vendor_boilerplate.php
-  excludes_analyse:
+  excludePaths:
     - vendor/
   # We consider that the extension file will be stored the folder test/phpstan
   # From Phpstan 0.12, paths are relative to the .neon file.
@@ -14,4 +14,4 @@ parameters:
   # - ../../controllers
   reportUnmatchedIgnoredErrors: false
   checkMissingIterableValueType: false
-  level: 9
+  level: max

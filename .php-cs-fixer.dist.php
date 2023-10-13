@@ -7,6 +7,7 @@ $finder = $config->setUsingCache(true)->getFinder();
 $finder
     ->in(__DIR__)
     ->exclude('translations')
+    ->exclude('prestashop')
     ->exclude('vendor');
 
 return $config;

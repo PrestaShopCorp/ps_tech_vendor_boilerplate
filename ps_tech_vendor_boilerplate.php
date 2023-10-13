@@ -64,6 +64,11 @@ class Ps_tech_vendor_boilerplate extends Module
         );
     }
 
+    /**
+     * @return bool
+     *
+     * @throws \PrestaShop\PrestaShop\Core\Domain\Theme\Exception\FailedToEnableThemeModuleException
+     */
     public function install()
     {
         $moduleManager = ModuleManagerBuilder::getInstance()->build();
@@ -85,6 +90,10 @@ class Ps_tech_vendor_boilerplate extends Module
 
     /**
      * Load the configuration form
+     *
+     * @return false|string
+     *
+     * @throws SmartyException
      */
     public function getContent()
     {
@@ -138,6 +147,8 @@ class Ps_tech_vendor_boilerplate extends Module
 
     /**
      * Create the form that will be displayed in the configuration of your module.
+     *
+     * @return string
      */
     protected function renderForm()
     {
@@ -156,6 +167,8 @@ class Ps_tech_vendor_boilerplate extends Module
 
     /**
      * Create the structure of your form.
+     *
+     * @return array
      */
     protected function getConfigForm()
     {
@@ -164,6 +177,8 @@ class Ps_tech_vendor_boilerplate extends Module
 
     /**
      * Set values for the inputs.
+     *
+     * @return array
      */
     protected function getConfigFormValues()
     {
