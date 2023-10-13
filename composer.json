@@ -11,9 +11,17 @@
     }
   ],
   "license": "AFL-3.0",
-  "require": {},
+  "require": {
+    "ext-gd": "*",
+    "ext-intl": "*",
+    "ext-mbstring": "*",
+    "ext-xmlwriter": "*",
+    "ext-zip": "*",
+    "php": ">=7.1"
+  },
   "require-dev": {
-    "prestashop/php-dev-tools": "v4.3.0",
-    "friendsofphp/php-cs-fixer": "v3.34.1"
+    "friendsofphp/php-cs-fixer": "v3.34.1",
+    "prestashop/php-dev-tools": "^4.3",
+    "phpstan/phpstan": "^1.10.38"
   }
 }

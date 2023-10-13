@@ -1,11 +1,10 @@
-.PHONY: help build version zip build test composer-validate lint php-lint lint-fix phpunit phpstan phpstan-baseline docker-php-lint
+.PHONY: help build version zip build test composer-validate lint php-lint lint-fix phpstan phpstan-baseline docker-php-lint docker-phpstan
 PHP = $(shell command -v php >/dev/null 2>&1 || { echo >&2 "PHP is not installed."; exit 1; } && which php)
 VERSION ?= $(shell git describe --tags 2> /dev/null || echo "0.0.0")
 SEM_VERSION ?= $(shell echo ${VERSION} | sed 's/^v//')
 PACKAGE ?= ps_tech_vendor_boilerplate-${VERSION}
 BUILDPLATFORM ?= linux/amd64
 TESTING_DOCKER_IMAGE ?= ps-eventbus-testing:latest
-#TESTING_DOCKER_BASE_IMAGE ?= phpdockerio/php80-cli
 PHP_VERSION ?= 8.2
 PS_VERSION ?= 1.7.8.7
 PS_ROOT_DIR ?= $(shell pwd)/prestashop/prestashop-${PS_VERSION}
@@ -58,8 +57,21 @@ vendor: composer.phar
 vendor/bin/php-cs-fixer: composer.phar
 	./composer.phar install --ignore-platform-reqs
 
+vendor/bin/phpstan: composer.phar
+	./composer.phar install --ignore-platform-reqs
+
+prestashop:
+	@mkdir -p ./prestashop
+
+prestashop/prestashop-${PS_VERSION}: prestashop composer.phar
+	@if [ ! -d "prestashop/prestashop-${PS_VERSION}" ]; then \
+		git clone --depth 1 --branch ${PS_VERSION} https://github.com/PrestaShop/PrestaShop.git prestashop/prestashop-${PS_VERSION}; \
+		./composer.phar -d ./prestashop/prestashop-${PS_VERSION} install; \
+	fi;
+
+
 # target: test                                   - Static and unit testing
-test: composer-validate lint php-lint
+test: composer-validate lint php-lint phpstan
 
 # target: composer-validate                      - Validates composer.json and composer.lock
 composer-validate: vendor
@@ -78,7 +90,21 @@ php-lint:
 	@git ls-files | grep -E '.*\.(php)' | xargs -n1 php -l -n | (! grep -v "No syntax errors" );
 	@echo "php $(shell php -r 'echo PHP_VERSION;') lint passed";
 
+# target: phpstan                                - Run phpstan
+phpstan: vendor/bin/phpstan prestashop/prestashop-${PS_VERSION}
+	_PS_ROOT_DIR_=${PS_ROOT_DIR} vendor/bin/phpstan analyse --memory-limit=256M --configuration=./tests/phpstan/phpstan.neon;
+
+# target: phpstan-baseline                       - Generate a phpstan baseline to ignore all errors
+phpstan-baseline: prestashop/prestashop-${PS_VERSION} vendor/bin/phpstan
+	_PS_ROOT_DIR_=${PS_ROOT_DIR} vendor/bin/phpstan analyse --generate-baseline --memory-limit=256M --configuration=./tests/phpstan/phpstan.neon;
+
+
 # target: docker-php-lint                        - Lint the code with php in docker
 docker-php-lint:
 	docker build --build-arg BUILDPLATFORM=${BUILDPLATFORM} --build-arg PHP_VERSION=${PHP_VERSION} -t ${TESTING_DOCKER_IMAGE} -f dev-tools.Dockerfile .;
 	docker run --rm -v $(shell pwd):/src ${TESTING_DOCKER_IMAGE} php-lint;
+
+# target: docker-phpstan                         - Run phpstan in docker
+docker-phpstan: prestashop/prestashop-${PS_VERSION}
+	docker build --build-arg BUILDPLATFORM=${BUILDPLATFORM} --build-arg PHP_VERSION=${PHP_VERSION} -t ${TESTING_DOCKER_IMAGE} -f dev-tools.Dockerfile .;
+	docker run --rm -e _PS_ROOT_DIR_=/src/prestashop/prestashop-${PS_VERSION} -v $(shell pwd):/src ${TESTING_DOCKER_IMAGE} phpstan;
