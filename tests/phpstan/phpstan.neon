@@ -15,3 +15,5 @@ parameters:
   reportUnmatchedIgnoredErrors: false
   checkMissingIterableValueType: false
   level: max
+  # ignoreErrors:
+  #   - '#Cannot call method build\(\) on PrestaShop\\PrestaShop\\Core\\Addon\\Module\\ModuleManagerBuilder\|null.#'

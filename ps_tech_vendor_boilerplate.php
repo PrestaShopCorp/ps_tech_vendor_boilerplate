@@ -68,10 +68,15 @@ class Ps_tech_vendor_boilerplate extends Module
      * @return bool
      *
      * @throws \PrestaShop\PrestaShop\Core\Domain\Theme\Exception\FailedToEnableThemeModuleException
+     * @throws ErrorException
      */
     public function install()
     {
-        $moduleManager = ModuleManagerBuilder::getInstance()->build();
+        $instance = ModuleManagerBuilder::getInstance();
+        if ($instance == null) {
+            throw new ErrorException('No ModuleManagerBuilder instance');
+        }
+        $moduleManager = $instance->build();
 
         if (!$moduleManager->isInstalled('ps_eventbus')) {
             $moduleManager->install('ps_eventbus');
@@ -89,11 +94,22 @@ class Ps_tech_vendor_boilerplate extends Module
     }
 
     /**
+     * @param string $serviceName
+     *
+     * @return mixed
+     */
+    public function getService($serviceName)
+    {
+        return $this->serviceContainer->getService($serviceName);
+    }
+
+    /**
      * Load the configuration form
      *
      * @return false|string
      *
      * @throws SmartyException
+     * @throws ErrorException
      */
     public function getContent()
     {
@@ -101,7 +117,12 @@ class Ps_tech_vendor_boilerplate extends Module
 
         $output = $this->context->smarty->fetch($this->local_path . 'views/templates/admin/configure.tpl');
 
-        $moduleManager = ModuleManagerBuilder::getInstance()->build();
+        $instance = ModuleManagerBuilder::getInstance();
+        if ($instance == null) {
+            throw new ErrorException('No ModuleManagerBuilder instance');
+        }
+        $moduleManager = $instance->build();
+
         /*
         if ($moduleManager->isInstalled("ps_accounts")) {
 
@@ -115,8 +136,13 @@ class Ps_tech_vendor_boilerplate extends Module
         */
         if ($moduleManager->isInstalled('ps_eventbus')) {
             $eventbusModule = \Module::getInstanceByName('ps_eventbus');
-            if (version_compare($eventbusModule->version, '1.9.0', '>=')) {
-                $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
+            if (isset($eventbusModule->version) && version_compare($eventbusModule->version, '1.9.0', '>=')) {
+                // also use is_callable ?
+                if (!method_exists($eventbusModule, 'getService')) {
+                    throw new ErrorException("getService doesn't exist on ps_eventbus");
+                }
+                $eventbusPresenterService =
+                    $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
 
                 Media::addJsDef([
                     'contextPsEventbus' => $eventbusPresenterService->expose($this, [
