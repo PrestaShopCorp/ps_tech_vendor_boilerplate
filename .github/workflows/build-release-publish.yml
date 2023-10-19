@@ -42,6 +42,7 @@ jobs:
         shell: bash
         run: |
           echo "$ENV_FILE" >> .env.prod
+          chmod +x ./tools/interpolate.sh
           make zip-prod
         env:
           ENV_FILE: ${{ vars.PRODUCTION_ENV }}
@@ -72,6 +73,7 @@ jobs:
         shell: bash
         run: |
           echo "$ENV_FILE" >> .env.inte
+          chmod +x ./tools/interpolate.sh
           make zip-inte
         env:
           ENV_FILE: ${{ vars.INTEGRATION_ENV }}
