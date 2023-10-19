@@ -43,8 +43,10 @@ jobs:
         shell: bash
         run: |
           cd ${{ github.event.repository.name }}
-          echo "MSC_UI_URL=${{ vars.MSC_UI_URL }}" >> .env.prod
+          echo "$ENV_FILE" >> .env.prod
           make zip-prod
+        env:
+          ENV_FILE: ${{ vars.PRODUCTION_ENV }}
 
       - name: Publish the zip
         uses: actions/upload-release-asset@v1
@@ -73,8 +75,10 @@ jobs:
         shell: bash
         run: |
           cd ${{ github.event.repository.name }}
-          echo "MSC_UI_URL=${{ vars.MSC_UI_URL }}" >> .env.prod
+          echo "$ENV_FILE" >> .env.inte
           make zip-inte
+        env:
+          ENV_FILE: ${{ vars.INTEGRATION_ENV }}
 
       - name: Publish the zip
         uses: actions/upload-release-asset@v1
