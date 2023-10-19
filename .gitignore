@@ -1,7 +1,8 @@
-.env
+.env*
 .config*.yml
 dist/
 vendor/
+cache/
 prestashop/
 node_modules/
 phpstan-baseline.neon
@@ -30,5 +31,3 @@ allure-report
 # Sonar
 .scannerwork
 sonar-project.properties
-
-cache

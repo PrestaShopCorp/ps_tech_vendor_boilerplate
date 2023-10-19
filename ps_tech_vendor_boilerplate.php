@@ -25,6 +25,7 @@
  *
  */
 
+use PrestaShop\ModuleLibServiceContainer\DependencyInjection\ServiceContainer;
 use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
 
 if (!defined('_PS_VERSION_')) {
@@ -34,7 +35,7 @@ if (!defined('_PS_VERSION_')) {
 class Ps_tech_vendor_boilerplate extends Module
 {
     /**
-     * @var \PrestaShop\ModuleLibServiceContainer\DependencyInjection\ServiceContainer
+     * @var ServiceContainer
      */
     private $serviceContainer;
 
@@ -58,7 +59,7 @@ class Ps_tech_vendor_boilerplate extends Module
 
         $this->ps_versions_compliancy = ['min' => '1.6', 'max' => _PS_VERSION_];
 
-        $this->serviceContainer = new \PrestaShop\ModuleLibServiceContainer\DependencyInjection\ServiceContainer(
+        $this->serviceContainer = new ServiceContainer(
             $this->name,
             $this->getLocalPath()
         );
@@ -87,9 +88,10 @@ class Ps_tech_vendor_boilerplate extends Module
 
         /*
         $eventbusModule =  \Module::getInstanceByName("ps_eventbus");
-        $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
+        $eventbusPresenterService =
+            $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
         $eventbusPresenterService->init();
-*/
+        */
         return parent::install();
     }
 
@@ -127,7 +129,8 @@ class Ps_tech_vendor_boilerplate extends Module
         if ($moduleManager->isInstalled("ps_accounts")) {
 
             $accountsModule =  \Module::getInstanceByName("ps_accounts");
-            $accountPresenterService = $accountsModule->getService('PrestaShop\Module\PsAccounts\Presenter\PsAccountsPresenter');
+            $accountPresenterService =
+                $accountsModule->getService('PrestaShop\Module\PsAccounts\Presenter\PsAccountsPresenter');
 
             Media::addJsDef([
                 'contextPsAccounts' => $accountPresenterService->present($this->name),

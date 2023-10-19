@@ -17,11 +17,12 @@
     "ext-mbstring": "*",
     "ext-xmlwriter": "*",
     "ext-zip": "*",
-    "php": ">=7.1"
+    "php": ">=7.1",
+    "prestashop/module-lib-service-container": "^2.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "v3.34.1",
-    "prestashop/php-dev-tools": "^4.3",
+    "friendsofphp/php-cs-fixer": "^3.35.1",
+    "prestashop/php-dev-tools": "^4.3.0",
     "phpstan/phpstan": "^1.10.38"
   }
 }

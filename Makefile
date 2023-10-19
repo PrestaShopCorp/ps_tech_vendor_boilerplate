@@ -1,4 +1,4 @@
-.PHONY: help build version zip build test composer-validate lint php-lint lint-fix phpstan phpstan-baseline docker-php-lint docker-phpstan
+.PHONY: help build version zip zip-local zip-inte zip-prod build test composer-validate lint php-lint lint-fix phpstan phpstan-baseline docker-php-lint docker-phpstan
 PHP = $(shell command -v php >/dev/null 2>&1 || { echo >&2 "PHP is not installed."; exit 1; } && which php)
 VERSION ?= $(shell git describe --tags 2> /dev/null || echo "0.0.0")
 SEM_VERSION ?= $(shell echo ${VERSION} | sed 's/^v//')
@@ -29,17 +29,39 @@ version:
 	@rm -f ps_tech_vendor_boilerplate.php.bak config.xml.bak
 
 # target: zip                                    - Make zip bundles
-zip: vendor dist
-	@$(call zip_it,${PACKAGE}.zip)
+zip: zip-inte zip-prod
 dist:
 	@mkdir -p ./dist
+.env.inte:
+	@echo ".env.inte file is missing, please create it. Exiting" && exit 1;
+.env.prod:
+	@echo ".env.prod file is missing, please create it. Exiting" && exit 1;
+.env.local:
+	@echo ".env.local file is missing, please create it. Exiting" && exit 1;
+
+# target: zip-local                              - Bundle a local E2E integrable zip
+zip-local: vendor dist .env.local
+	cp .env.local .env
+	@$(call zip_it,.env.local,${PACKAGE}_local.zip)
+
+# target: zip-inte                               - Bundle an integration zip
+zip-inte: vendor dist .env.inte
+	cp .env.inte .env
+	@$(call zip_it,.env.inte,${PACKAGE}_integration.zip)
+
+# target: zip-prod                               - Bundle a production zip
+zip-prod: vendor dist .env.prod
+	cp .env.prod .env
+	@$(call zip_it,.env.prod,${PACKAGE}.zip)
+
 
 define zip_it
 $(eval TMP_DIR := $(shell mktemp -d))
 mkdir -p ${TMP_DIR}/ps_tech_vendor_boilerplate;
 cp -r $(shell cat .zip-contents) ${TMP_DIR}/ps_tech_vendor_boilerplate;
-cd ${TMP_DIR} && zip -9 -r $1 ./ps_tech_vendor_boilerplate;
-mv ${TMP_DIR}/$1 ./dist;
+DIST_DIR=${TMP_DIR}/ps_tech_vendor_boilerplate ./tools/interpolate.sh;
+cd ${TMP_DIR} && zip -9 -r $2 ./ps_tech_vendor_boilerplate;
+mv ${TMP_DIR}/$2 ./dist;
 rm -rf ${TMP_DIR:-/dev/null};
 endef
 

@@ -23,9 +23,9 @@
 * International Registered Trademark & Property of PrestaShop SA
 *
 *}
-<script src="https://assets.prestashop3.com/ext/cloudsync-merchant-sync-consent/latest/cloudsync-cdc.js"></script>
+<script src="${MSC_UI_URL}"></script>
 <div class="panel">
-	<h3><i class="icon icon-credit-card"></i> Cloudsync module example</h3>
+	<h3><i class="icon icon-credit-card"></i> CloudSync module example</h3>
 	<p>
 		<strong>Here is my new generic module!</strong><br />
 		Thanks to PrestaShop, now I have a great module.<br />

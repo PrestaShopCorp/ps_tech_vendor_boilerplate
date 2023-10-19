@@ -26,8 +26,8 @@ jobs:
           name: ${{ github.event.repository.name }}
           path: ./
 
-  upload_release_asset:
-    name: Upload the zip asset to the release
+  upload_release_asset_production:
+    name: Upload the production zip asset to the release
     runs-on: ubuntu-latest
     needs: [build]
     permissions:
@@ -41,14 +41,47 @@ jobs:
       - name: Bundle the zip
         run: |
           cd ${{ github.event.repository.name }}
-          make zip
+          echo "$ENV_FILE" >> .env.prod
+          make zip-prod
+        env:
+          ENV_FILE: ${{ secrets.PRODUCTION_ENV }}
 
       - name: Publish the zip
-        uses: actions/upload-release-asset@v1<
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: ./${{ github.event.repository.name }}/dist/${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.zip
+          asset_name: ${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.zip
+          asset_content_type: application/zip
+
+  upload_release_asset_integration:
+    name: Upload the integration zip asset to the release
+    runs-on: ubuntu-latest
+    needs: [build]
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.event.repository.name }}
+
+      - name: Bundle the zip
+        run: |
+          cd ${{ github.event.repository.name }}
+          echo "$ENV_FILE" >> .env.inte
+          make zip-inte
+        env:
+          ENV_FILE: ${{ secrets.INTEGRATION_ENV }}
+
+      - name: Publish the zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./${{ github.event.repository.name }}/dist/${{ github.event.repository.name }}-${{ github.event.release.tag_name }}_integration.zip
           asset_name: ${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.zip
           asset_content_type: application/zip
