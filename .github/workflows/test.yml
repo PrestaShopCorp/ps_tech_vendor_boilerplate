@@ -19,7 +19,7 @@ jobs:
           echo "$ENV_FILE" >> .env.prod
           cat .env.prod
         env:
-          ENV_FILE: ${{ secrets.PRODUCTION_ENV }}
+          ENV_FILE: ${{ vars.PRODUCTION_ENV }}
 
   test_integration:
     name: Test integration
@@ -32,4 +32,4 @@ jobs:
           echo "$ENV_FILE" >> .env.inte
           cat .env.inte
         env:
-          ENV_FILE: ${{ secrets.INTEGRATION_ENV }}
+          ENV_FILE: ${{ vars.INTEGRATION_ENV }}
