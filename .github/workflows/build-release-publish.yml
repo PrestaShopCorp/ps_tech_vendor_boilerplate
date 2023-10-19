@@ -1,5 +1,6 @@
 name: Release and publish
 on:
+  workflow_dispatch:
   release:
     types: [released, prereleased]
 
@@ -30,7 +31,6 @@ jobs:
     name: Upload the production zip asset to the release
     runs-on: ubuntu-latest
     needs: [build]
-    environment: PRODUCTION
     permissions:
       contents: write
     steps:
@@ -42,6 +42,8 @@ jobs:
       - name: Bundle the zip
         shell: bash
         run: |
+          ls -l
+          pwd
           cd ${{ github.event.repository.name }}
           echo "$ENV_FILE" >> .env.prod
           make zip-prod
@@ -62,7 +64,6 @@ jobs:
     name: Upload the integration zip asset to the release
     runs-on: ubuntu-latest
     needs: [build]
-    environment: INTEGRATION
     permissions:
       contents: write
     steps:
