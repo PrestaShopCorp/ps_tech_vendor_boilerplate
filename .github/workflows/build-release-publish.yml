@@ -1,6 +1,5 @@
 name: Release and publish
 on:
-  workflow_dispatch:
   release:
     types: [released, prereleased]
 
@@ -42,9 +41,6 @@ jobs:
       - name: Bundle the zip
         shell: bash
         run: |
-          ls -l
-          pwd
-          cd ${{ github.event.repository.name }}
           echo "$ENV_FILE" >> .env.prod
           make zip-prod
         env:
@@ -75,7 +71,6 @@ jobs:
       - name: Bundle the zip
         shell: bash
         run: |
-          cd ${{ github.event.repository.name }}
           echo "$ENV_FILE" >> .env.inte
           make zip-inte
         env:
