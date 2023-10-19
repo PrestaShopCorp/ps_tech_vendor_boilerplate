@@ -99,7 +99,7 @@ And where you want to display it:
 <div id="prestashop-cloudsync"></div>
 ```
 
-Now instanciate the component:
+Now instantiate the component:
 
 ```html
 <script>
@@ -114,6 +114,6 @@ Now instanciate the component:
 </script>
 ```
 
-_If you prefer to set the rendering into another element you can pass the querySelector to the init mehthod like : `cdc.init("#consents-box")`_
+_If you prefer to set the rendering into another element you can pass the querySelector to the init method like : `cdc.init("#consents-box")`_
 
 A callback function is available, it's called when the user accept the consents.

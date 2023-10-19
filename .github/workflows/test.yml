@@ -1,0 +1,35 @@
+name: Test
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  push:
+    branches:
+      - "main"
+
+jobs:
+  test_production:
+    name: Test production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        shell: bash
+        run: |
+          echo "$ENV_FILE"
+          echo "$ENV_FILE" >> .env.prod
+          cat .env.prod
+        env:
+          ENV_FILE: ${{ vars.PRODUCTION_ENV }}
+
+  test_integration:
+    name: Test integration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        shell: bash
+        run: |
+          echo "$ENV_FILE"
+          echo "$ENV_FILE" >> .env.inte
+          cat .env.inte
+        env:
+          ENV_FILE: ${{ vars.INTEGRATION_ENV }}

@@ -1,5 +1,5 @@
 {*
-* 2007-2022 PrestaShop
+* 2007-2023 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -8,8 +8,8 @@
 * It is also available through the world-wide-web at this URL:
 * http://opensource.org/licenses/afl-3.0.php
 * If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
+* obtain it through the world-wide-web, please email
+* license@prestashop.com, so we can send you a copy immediately.
 *
 * DISCLAIMER
 *
@@ -17,14 +17,15 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @author    PrestaShop SA <contact@prestashop.com>
-*  @copyright 2007-2022 PrestaShop SA
-*  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
+* @author    PrestaShop SA <contact@prestashop.com>
+* @copyright 2007-2023 PrestaShop SA
+* @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+* International Registered Trademark & Property of PrestaShop SA
+*
 *}
-<script src="https://assets.prestashop3.com/ext/cloudsync-merchant-sync-consent/latest/cloudsync-cdc.js"></script>
+<script src="${MSC_UI_URL}"></script>
 <div class="panel">
-	<h3><i class="icon icon-credit-card"></i> Cloudsync module example</h3>
+	<h3><i class="icon icon-credit-card"></i> CloudSync module example</h3>
 	<p>
 		<strong>Here is my new generic module!</strong><br />
 		Thanks to PrestaShop, now I have a great module.<br />
@@ -39,7 +40,7 @@
 <div id="prestashop-cloudsync"></div>
 <script>
   const cdc = window.cloudSyncSharingConsent;
-  
+
   cdc.init('#prestashop-cloudsync');
   cdc.on('OnboardingCompleted', (isCompleted) => {
     console.log('OnboardingCompleted', isCompleted);
