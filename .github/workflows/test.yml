@@ -1,0 +1,33 @@
+name: Test
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  push:
+    branches:
+      - "main"
+
+jobs:
+  test_production:
+    name: Test production
+    runs-on: ubuntu-latest
+    environment: PRODUCTION
+    steps:
+      - name: Test
+        shell: bash
+        run: |
+          echo ${{ env.MSC_UI_URL }}
+          echo "MSC_UI_URL=${{ env.MSC_UI_URL }}" >> .env.prod
+          cat .env.prod
+
+  test_integration:
+    name: Test integration
+    runs-on: ubuntu-latest
+    environment: PRODUCTION
+    steps:
+      - name: Test
+        shell: bash
+        run: |
+          echo ${{ env.MSC_UI_URL }}
+          echo "MSC_UI_URL=${{ env.MSC_UI_URL }}" >> .env.inte
+          cat .env.inte
