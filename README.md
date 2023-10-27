@@ -1,6 +1,9 @@
 # PS Tech Vendor Boilerplate
 
 This is a boilerplate is a module example to fasten your integration of the ps_eventbus/CloudSync tools and environments.
+See our [Prestashop Integration Framework documentation](https://docs.cloud.prestashop.com/7-prestashop-cloudsync/) for more information on how you can use such module.
+
+You may also be interested by another boilerplate module, including more PrestaShop buildFor services here: [builtforjsexample](https://github.com/PrestaShopCorp/builtforjsexample).
 
 ## Install ps_accounts
 
