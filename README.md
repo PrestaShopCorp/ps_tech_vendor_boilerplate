@@ -78,7 +78,7 @@ The required consents are up to your needs, you may use:
 - `taxonomies`: Advanced categories available on the shop (read only)
 - `wishlists`: The anonymized wishlists of the customers (read only)
 
-| `info`, `modules` and `themes` consents are mandatory.
+| `info` is mandatory.
 
 ## Add the CDC to your config page
 
