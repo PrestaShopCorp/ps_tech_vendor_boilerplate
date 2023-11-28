@@ -166,6 +166,7 @@ class Ps_tech_vendor_boilerplate extends Module
                         'stores',
                         'suppliers',
                         'taxonomies',
+                        'translations',
                         'wishlists',
                     ]),
                 ]);

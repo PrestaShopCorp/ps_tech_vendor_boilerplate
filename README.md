@@ -79,6 +79,7 @@ The required consents are up to your needs, you may use:
 - `stores`: The list of stores on the shop (read only)
 - `suppliers`: List of suppliers of shop (read only)
 - `taxonomies`: Advanced categories available on the shop (read only)
+- `translations`: The list of translations available on the shop (read only)
 - `wishlists`: The anonymized wishlists of the customers (read only)
 
 | `info` is mandatory.
