@@ -62,16 +62,16 @@ if ($moduleManager->isInstalled('ps_eventbus')) {
 
 The required consents are up to your needs, you may use:
 
-- `info` (mandatory): The shop technical data such as the version of PrestaShop or PHP (read only)
-- `modules`: The list of modules installed on the shop (read only)
-- `themes`: The list of themes installed on the shop (read only)
 - `carriers`: The characteristics of the carriers available on the shop (read only)
 - `carts`: Information about the shopping carts of the shop (read only)
 - `categories`: The list of product categories of the shop (read only)
 - `currencies`: The list of currencies available in the shop (read only)
 - `customers`: The anonymized list of the shop customers (read only)
 - `employees`: The anonymized list of the store employees (read only)
+- `images`: The list of images available on your shop (read only)
+- `info` (mandatory): The shop technical data such as the version of PrestaShop or PHP (read only)
 - `languages`: Languages used by the shop (read only)
+- `modules`: The list of modules installed on the shop (read only)
 - `manufacturers`: List of manufacturers of the products sold by the shop (read only)
 - `orders`: Information about orders placed on the shop (read only)
 - `products`: The list of products available on the shop (read only)
@@ -79,6 +79,7 @@ The required consents are up to your needs, you may use:
 - `stores`: The list of stores on the shop (read only)
 - `suppliers`: List of suppliers of shop (read only)
 - `taxonomies`: Advanced categories available on the shop (read only)
+- `themes`: The list of themes installed on the shop (read only)
 - `translations`: The list of translations available on the shop (read only)
 - `wishlists`: The anonymized wishlists of the customers (read only)
 
