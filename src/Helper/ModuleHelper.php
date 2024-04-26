@@ -25,7 +25,7 @@
  *
  */
 
-namespace PrestaShop\Module\PsTechVendorBoilerplate\Helper;
+namespace PrestaShop\Module\Ps_tech_vendor_boilerplate\Helper;
 
 use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
 use PrestaShop\PrestaShop\Core\Module\ModuleManager;

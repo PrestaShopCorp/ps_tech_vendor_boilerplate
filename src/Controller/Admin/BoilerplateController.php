@@ -19,7 +19,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-namespace PrestaShop\Module\PsTechVendorBoilerplate\Controller\Admin;
+namespace PrestaShop\Module\Ps_tech_vendor_boilerplate\Controller\Admin;
 
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
