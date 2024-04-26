@@ -31,7 +31,7 @@
     ],
     "psr-4": {
       "PrestaShop\\Module\\PsTechVendorBoilerplate\\": "src/",
-      "exclude-from-classmap": []
+      "exclude-from-classmap\\": []
     }
   }
 }
