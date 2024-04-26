@@ -21,9 +21,9 @@
 
 namespace PrestaShop\Module\Ps_tech_vendor_boilerplate\Controller\Admin;
 
+use PrestaShop\Module\Ps_tech_vendor_boilerplate\Config\Env;
 use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
-use PrestaShop\Module\Ps_tech_vendor_boilerplate\Config\Env;
 
 class BoilerplateController extends FrameworkBundleAdminController
 {
@@ -36,7 +36,6 @@ class BoilerplateController extends FrameworkBundleAdminController
     {
         $contextPsEventbus = null;
         $contextPsAccounts = null;
-
 
         /** @var Ps_tech_vendor_boilerplate $psTechVendorBoilerplateModule */
         $psTechVendorBoilerplateModule = \Module::getInstanceByName('ps_tech_vendor_boilerplate');

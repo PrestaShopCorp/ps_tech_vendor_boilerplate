@@ -68,7 +68,7 @@ class Ps_tech_vendor_boilerplate extends Module
     /**
      * @return bool
      *
-     * @throws \PrestaShop\PrestaShop\Core\Domain\Theme\Exception\FailedToEnableThemeModuleException
+     * @throws PrestaShop\PrestaShop\Core\Domain\Theme\Exception\FailedToEnableThemeModuleException
      * @throws ErrorException
      */
     public function install()
@@ -111,17 +111,17 @@ class Ps_tech_vendor_boilerplate extends Module
      * @return string
      * @return void
      *
-     * @throws \PrestaShopException
+     * @throws PrestaShopException
      */
     public function getContent()
     {
         $link = $this->context->link;
 
         if (null == $link) {
-            throw new \PrestaShopException('Link is null');
+            throw new PrestaShopException('Link is null');
         }
 
-        \Tools::redirectAdmin(
+        Tools::redirectAdmin(
             $link->getAdminLink('BoilerplateController', true, [
                 'route' => 'ps_tech_vendor_boilerplate',
             ])
