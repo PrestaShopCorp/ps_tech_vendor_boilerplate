@@ -30,7 +30,7 @@
       "ps_tech_vendor_boilerplate.php"
     ],
     "psr-4": {
-      "PrestaShop\\Module\\PsTechVendorBoilerplate\\": "src/",
+      "PrestaShop\\Module\\Ps_tech_vendor_boilerplate\\": "src/",
       "exclude-from-classmap": []
     }
   }
