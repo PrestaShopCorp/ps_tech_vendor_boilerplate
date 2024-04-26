@@ -19,11 +19,10 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
  */
 
-namespace PrestaShop\Module\PsTechVendorBoilerplate\Controller\Admin;
+namespace PrestaShop\Module\Ps_tech_vendor_boilerplate\Controller\Admin;
 
-use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
-use PrestaShopException;
+use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 
 class BoilerplateController extends FrameworkBundleAdminController
 {
@@ -38,20 +37,20 @@ class BoilerplateController extends FrameworkBundleAdminController
         $contextPsAccounts = null;
 
         /** @var Ps_tech_vendor_boilerplate $psTechVendorBoilerplateModule */
-        $psTechVendorBoilerplateModule = \Module::getInstanceByName("ps_tech_vendor_boilerplate");
+        $psTechVendorBoilerplateModule = \Module::getInstanceByName('ps_tech_vendor_boilerplate');
         if (!$psTechVendorBoilerplateModule) {
-            throw new PrestaShopException('Module ps_tech_vendor_boilerplate not found');
+            throw new \PrestaShopException('Module ps_tech_vendor_boilerplate not found');
         }
 
         $instance = ModuleManagerBuilder::getInstance();
         if ($instance == null) {
-            throw new PrestaShopException('No ModuleManagerBuilder instance');
+            throw new \PrestaShopException('No ModuleManagerBuilder instance');
         }
 
         $moduleManager = $instance->build();
 
-        if ($moduleManager->isInstalled("ps_accounts")) {
-            $accountsModule =  \Module::getInstanceByName("ps_accounts");
+        if ($moduleManager->isInstalled('ps_accounts')) {
+            $accountsModule = \Module::getInstanceByName('ps_accounts');
             $accountPresenterService = $accountsModule->getService('PrestaShop\Module\PsAccounts\Presenter\PsAccountsPresenter');
             $contextPsAccounts = $accountPresenterService->present($psTechVendorBoilerplateModule->name);
         }
@@ -61,7 +60,7 @@ class BoilerplateController extends FrameworkBundleAdminController
             if (isset($eventbusModule->version) && version_compare($eventbusModule->version, '1.9.0', '>=')) {
                 // also use is_callable ?
                 if (!method_exists($eventbusModule, 'getService')) {
-                    throw new PrestaShopException("getService doesn't exist on ps_eventbus");
+                    throw new \PrestaShopException("getService doesn't exist on ps_eventbus");
                 }
                 $eventbusPresenterService = $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
 

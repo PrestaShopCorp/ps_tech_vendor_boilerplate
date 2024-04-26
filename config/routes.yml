@@ -3,12 +3,12 @@ ps_tech_vendor_boilerplate_api_resolver:
   methods: [GET, POST]
   defaults:
     query: ""
-    _controller: 'PrestaShop\Module\PsTechVendorBoilerplate\Controller\Admin\BoilerplateResolverController::resolve'
+    _controller: 'PrestaShop\Module\Ps_tech_vendor_boilerplate\Controller\Admin\BoilerplateResolverController::resolve'
 
 ps_tech_vendor_boilerplate:
   path: ps_tech_vendor_boilerplate
   methods: [GET]
   defaults:
-    _controller: 'PrestaShop\Module\PsTechVendorBoilerplate\Controller\Admin\BoilerplateController::renderApp'
+    _controller: 'PrestaShop\Module\Ps_tech_vendor_boilerplate\Controller\Admin\BoilerplateController::renderApp'
     _legacy_controller: 'BoilerplateController'
     _legacy_link: "BoilerplateController"

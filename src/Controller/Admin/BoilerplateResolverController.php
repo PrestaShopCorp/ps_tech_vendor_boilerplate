@@ -25,10 +25,10 @@
  *
  */
 
-namespace PrestaShop\Module\PsTechVendorBoilerplate\Controller\Admin;
+namespace PrestaShop\Module\Ps_tech_vendor_boilerplate\Controller\Admin;
 
-use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use Prestashop\ModuleLibMboInstaller\Installer as MBOInstaller;
+use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -89,12 +89,12 @@ class BoilerplateResolverController extends FrameworkBundleAdminController
 
     /**
      * Return dependencies information
-     * 
+     *
      * @return Response
      */
     public function getModulesInformation(): Response
     {
-        $moduleHelper = $this->module->get('PrestaShop\Module\PsTechVendorBoilerplate\Helper\ModuleHelper');
+        $moduleHelper = $this->module->get('PrestaShop\Module\Ps_tech_vendor_boilerplate\Helper\ModuleHelper');
 
         if (!$moduleHelper) {
             return new Response('Module helper not found', 404);
