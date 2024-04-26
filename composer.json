@@ -18,6 +18,7 @@
     "ext-xmlwriter": "*",
     "ext-zip": "*",
     "php": ">=7.1",
+    "vlucas/phpdotenv": "^3.6",
     "prestashop/module-lib-service-container": "^2.0"
   },
   "require-dev": {

@@ -23,6 +23,7 @@ namespace PrestaShop\Module\Ps_tech_vendor_boilerplate\Controller\Admin;
 
 use PrestaShop\PrestaShop\Core\Addon\Module\ModuleManagerBuilder;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
+use PrestaShop\Module\Ps_tech_vendor_boilerplate\Config\Env;
 
 class BoilerplateController extends FrameworkBundleAdminController
 {
@@ -36,11 +37,15 @@ class BoilerplateController extends FrameworkBundleAdminController
         $contextPsEventbus = null;
         $contextPsAccounts = null;
 
+
         /** @var Ps_tech_vendor_boilerplate $psTechVendorBoilerplateModule */
         $psTechVendorBoilerplateModule = \Module::getInstanceByName('ps_tech_vendor_boilerplate');
         if (!$psTechVendorBoilerplateModule) {
             throw new \PrestaShopException('Module ps_tech_vendor_boilerplate not found');
         }
+
+        /** @var Env $envService */
+        $envService = $psTechVendorBoilerplateModule->getService('PrestaShop\Module\Ps_tech_vendor_boilerplate\Config\Env');
 
         $instance = ModuleManagerBuilder::getInstance();
         if ($instance == null) {
@@ -95,7 +100,7 @@ class BoilerplateController extends FrameworkBundleAdminController
                 'mboIsInstalled' => $moduleManager->isInstalled('ps_mbo'),
                 'contextPsEventbus' => $contextPsEventbus,
                 'contextPsAccounts' => $contextPsAccounts,
-                'mscUiUrl' => 'https://assets.prestashop3.com/ext/cloudsync-merchant-sync-consent/latest/cloudsync-cdc.js',
+                'mscUiUrl' => $envService->get('MSC_UI_URL'),
             ]
         );
     }
