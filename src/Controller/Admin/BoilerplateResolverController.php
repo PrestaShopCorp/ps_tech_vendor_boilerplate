@@ -27,8 +27,8 @@
 
 namespace PrestaShop\Module\Ps_tech_vendor_boilerplate\Controller\Admin;
 
-use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use Prestashop\ModuleLibMboInstaller\Installer as MBOInstaller;
+use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -89,7 +89,7 @@ class BoilerplateResolverController extends FrameworkBundleAdminController
 
     /**
      * Return dependencies information
-     * 
+     *
      * @return Response
      */
     public function getModulesInformation(): Response
