@@ -1,0 +1,6 @@
+services:
+  PrestaShop\Module\PsTechVendorBoilerplate\Helper\ModuleHelper:
+    class: PrestaShop\Module\PsTechVendorBoilerplate\Helper\ModuleHelper
+    public: true
+
+  

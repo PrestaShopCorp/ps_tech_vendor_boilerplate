@@ -106,75 +106,26 @@ class Ps_tech_vendor_boilerplate extends Module
     }
 
     /**
-     * Load the configuration form
+     * Load the configuration page.
      *
-     * @return false|string
+     * @return string
+     * @return void
      *
-     * @throws SmartyException
-     * @throws ErrorException
+     * @throws \PrestaShopException
      */
     public function getContent()
     {
-        $this->context->smarty->assign('module_dir', $this->_path);
+        $link = $this->context->link;
 
-        $output = $this->context->smarty->fetch($this->local_path . 'views/templates/admin/configure.tpl');
-
-        $instance = ModuleManagerBuilder::getInstance();
-        if ($instance == null) {
-            throw new ErrorException('No ModuleManagerBuilder instance');
-        }
-        $moduleManager = $instance->build();
-
-        /*
-        if ($moduleManager->isInstalled("ps_accounts")) {
-
-            $accountsModule =  \Module::getInstanceByName("ps_accounts");
-            $accountPresenterService =
-                $accountsModule->getService('PrestaShop\Module\PsAccounts\Presenter\PsAccountsPresenter');
-
-            Media::addJsDef([
-                'contextPsAccounts' => $accountPresenterService->present($this->name),
-            ]);
-        }
-        */
-        if ($moduleManager->isInstalled('ps_eventbus')) {
-            $eventbusModule = \Module::getInstanceByName('ps_eventbus');
-            if (isset($eventbusModule->version) && version_compare($eventbusModule->version, '1.9.0', '>=')) {
-                // also use is_callable ?
-                if (!method_exists($eventbusModule, 'getService')) {
-                    throw new ErrorException("getService doesn't exist on ps_eventbus");
-                }
-                $eventbusPresenterService =
-                    $eventbusModule->getService('PrestaShop\Module\PsEventbus\Service\PresenterService');
-
-                Media::addJsDef([
-                    'contextPsEventbus' => $eventbusPresenterService->expose($this, [
-                        'carriers',
-                        'carts',
-                        'categories',
-                        'currencies',
-                        'customers',
-                        'employees',
-                        'images',
-                        'info',
-                        'languages',
-                        'manufacturers',
-                        'modules',
-                        'orders',
-                        'products',
-                        'stocks',
-                        'stores',
-                        'suppliers',
-                        'taxonomies',
-                        'themes',
-                        'translations',
-                        'wishlists',
-                    ]),
-                ]);
-            }
+        if (null == $link) {
+            throw new \PrestaShopException('Link is null');
         }
 
-        return $output;
+        \Tools::redirectAdmin(
+            $link->getAdminLink('BoilerplateController', true, [
+                'route' => 'ps_tech_vendor_boilerplate',
+            ])
+        );
     }
 
     /**
