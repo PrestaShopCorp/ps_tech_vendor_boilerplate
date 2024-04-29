@@ -12,3 +12,4 @@ config.xml
 LICENCE
 README.md
 src
+.env
