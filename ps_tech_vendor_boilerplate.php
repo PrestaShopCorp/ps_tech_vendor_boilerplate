@@ -102,6 +102,8 @@ class Ps_tech_vendor_boilerplate extends Module
      */
     public function getService($serviceName)
     {
+        dump($serviceName);
+        die;
         return $this->serviceContainer->getService($serviceName);
     }
 
@@ -115,6 +117,8 @@ class Ps_tech_vendor_boilerplate extends Module
      */
     public function getContent()
     {
+        dump('getContent');
+        die;
         $this->context->smarty->assign('module_dir', $this->_path);
 
         $output = $this->context->smarty->fetch($this->local_path . 'views/templates/admin/configure.tpl');
