@@ -10,6 +10,8 @@ services:
 
   PrestaShop\Module\Ps_tech_vendor_boilerplate\Helper\ModuleHelper:
     class: PrestaShop\Module\Ps_tech_vendor_boilerplate\Helper\ModuleHelper
+    arguments:
+      - "@ps_tech_vendor_boilerplate.module"
 
   PrestaShop\Module\Ps_tech_vendor_boilerplate\Config\Env:
     class: PrestaShop\Module\Ps_tech_vendor_boilerplate\Config\Env
