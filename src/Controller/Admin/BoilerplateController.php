@@ -43,6 +43,8 @@ class BoilerplateController extends FrameworkBundleAdminController
             throw new \PrestaShopException('Module ps_tech_vendor_boilerplate not found');
         }
 
+        $moduleHelper = $psTechVendorBoilerplateModule->getService('PrestaShop\Module\Ps_tech_vendor_boilerplate\Helper\ModuleHelper');
+
         /** @var Env $envService */
         $envService = $psTechVendorBoilerplateModule->getService('PrestaShop\Module\Ps_tech_vendor_boilerplate\Config\Env');
 
@@ -100,6 +102,15 @@ class BoilerplateController extends FrameworkBundleAdminController
                 'contextPsEventbus' => $contextPsEventbus,
                 'contextPsAccounts' => $contextPsAccounts,
                 'mscUiUrl' => $envService->get('MSC_UI_URL'),
+                'eventbusModule' => $moduleHelper->buildModuleInformation(
+                    'ps_eventbus'
+                ),
+                'accountsModule' => $moduleHelper->buildModuleInformation(
+                    'ps_accounts'
+                ),
+                'mboModule' => $moduleHelper->buildModuleInformation(
+                    'ps_mbo'
+                ),
             ]
         );
     }

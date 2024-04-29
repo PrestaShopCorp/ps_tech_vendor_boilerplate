@@ -58,6 +58,9 @@
     var cdc = window.cloudSyncSharingConsent;
     var contextPsAccounts = {{ contextPsAccounts|json_encode|raw }};
     var contextPsEventbus = {{ contextPsEventbus|json_encode|raw }};
+    var eventbusModule = {{ eventbusModule|json_encode|raw }};
+    var accountsModule = {{ accountsModule|json_encode|raw }};
+    var mboModule = {{ mboModule|json_encode|raw }};
 
     cdc.init('#prestashop-cloudsync');
     cdc.on('OnboardingCompleted', (isCompleted) => {
