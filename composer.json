@@ -19,7 +19,8 @@
     "ext-zip": "*",
     "php": ">=7.1",
     "vlucas/phpdotenv": "^3.6",
-    "prestashop/module-lib-service-container": "^2.0"
+    "prestashop/module-lib-service-container": "^2.0",
+    "prestashop/module-lib-mbo-installer": "^0.1.0"
   },
   "require-dev": {
     "phpstan/phpstan": "^1.10.15",
