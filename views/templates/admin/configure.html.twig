@@ -32,12 +32,13 @@
         This module will boost your sales!
     </p>
     <p>
-      {% if mboIsInstalled == false %}
+      {% if eventbusModule.isInstalled == false or accountsModule.isInstalled == false or mboModule.isInstalled == false or eventbusModule.isEnabled == false or accountsModule.isEnabled == false or mboModule.isEnabled == false or eventbusModule.isUpToDate == false %}
         <div class="alert alert-danger">
           <p>
-            <strong>Warning!</strong> The module "mbo" is not installed.
+            <strong>Warning!</strong> Some actions are required.
           </p>
-            Install the module "mbo"
+
+            <button class="btn btn-primary" onclick="performeActions()">Performe Actions</button>
         </div>
       {% endif %}
     </p>
@@ -69,6 +70,28 @@
     cdc.isOnboardingCompleted((isCompleted) => {
       console.log('Onboarding is already Completed', isCompleted);
     });
+
+    async function performeActions() {
+      console.log('Performing actions', actionRequired());
+      if(!mboModule.isInstalled) {
+        console.log('Installing MBO module');
+        await installModule('mbo');
+      }
+    }
+
+    async function installModule(module) {
+      console.log('Installing module', module);
+      if(module === 'mbo') {
+        console.log('Call API for MBO module');
+        await fetch(mboModule.linkInstall, {
+          method: 'POST',
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+          });
+      }
+    }
   </script>
 {% endblock %}
  
