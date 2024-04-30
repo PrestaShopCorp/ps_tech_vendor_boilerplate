@@ -98,7 +98,6 @@ class BoilerplateController extends FrameworkBundleAdminController
         return $this->render(
             '@Modules/ps_tech_vendor_boilerplate/views/templates/admin/configure.html.twig',
             [
-                'mboIsInstalled' => $moduleManager->isInstalled('ps_mbo'),
                 'contextPsEventbus' => $contextPsEventbus,
                 'contextPsAccounts' => $contextPsAccounts,
                 'mscUiUrl' => $envService->get('MSC_UI_URL'),
