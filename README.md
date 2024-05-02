@@ -39,6 +39,122 @@ if (!$moduleManager->isInstalled("ps_eventbus")) {
 }
 ```
 
+## Use the lib mbo_installer for managing dependencies
+
+Remember that a depency can be uninstall, disable or not up to date. To help the store to use a full functional package it's recommended to verify that yourself.
+
+- **First had mbo_installer on composer.json**
+
+```json
+"require": {
+    //.... Your dependencies here
+    "prestashop/module-lib-mbo-installer": "^0.1.0"
+  },
+```
+
+This lib is necessary to install the _ps_mbo_ module.
+You can forge the install link like this:
+
+```php
+/**
+ * Example on ModuleHelper.php
+ */
+if ($moduleName === 'ps_mbo') {
+    return substr(\Tools::getShopDomainSsl(true) . __PS_BASE_URI__, 0, -1) .
+        $router->generate('ps_tech_vendor_boilerplate_api_resolver', [
+            'query' => 'installPsMbo',
+        ]);
+}
+```
+
+and call it like this:
+
+```php
+/**
+ * Example on BoilerplateResolverController.php
+ *
+ * Install ps_mbo module
+ *
+ * @return Response
+ */
+public function installPsMbo(): Response
+{
+    $mboInstaller = new MBOInstaller(_PS_VERSION_);
+
+    return new Response(json_encode($mboInstaller->installModule(), JSON_FORCE_OBJECT), 200, [
+        'Content-Type' => 'application/json',
+    ]);
+}
+```
+
+- **Verify the dependencies**
+
+You can now access all the technical proprieties of the dependencies and return their state to your template:
+
+```php
+/**
+ * Example on BoilerplateController.php
+ *
+ * Build informations about module
+ *
+ * @param string $moduleName
+ *
+ * @return array
+ */
+public function buildModuleInformation(string $moduleName)
+{
+    return [
+        'technicalName' => $moduleName,
+        'displayName' => $this->getDisplayName($moduleName),
+        'isInstalled' => $this->isInstalled($moduleName),
+        'isEnabled' => $this->isEnabled($moduleName),
+        'isUpToDate' => $this->isUpToDate($moduleName),
+        'linkInstall' => $this->getInstallLink($moduleName),
+        'linkEnable' => $this->getEnableLink($moduleName),
+        'linkUpdate' => $this->getUpdateLink($moduleName),
+    ];
+}
+```
+
+`isUpToDate` comes from the ps_mbo module:
+
+```php
+/**
+ * Example on ModuleHelper.php
+ *
+ * returns true/false when module is out/up to date, and null when ps_mbo is not installed
+ *
+ * @param string $moduleName
+ *
+ * @return bool|null
+ */
+public function isUpToDate(string $moduleName)
+{
+    $mboModule = \Module::getInstanceByName('ps_mbo');
+
+    if (!$mboModule) {
+        return null;
+    }
+
+    try {
+        $mboHelper = $mboModule->get('mbo.modules.helper');
+    } catch (\Exception $e) {
+        return null;
+    }
+
+    if (!$mboHelper) {
+        return null;
+    }
+
+    $moduleVersionInfos = $mboHelper->findForUpdates($moduleName);
+
+    return $moduleVersionInfos['upgrade_available'];
+}
+```
+
+> [!CAUTION]
+> A module not installed, not up to date or disabled must be a blocking situation to ensure the proper functioning of ps-eventbus
+
 ## Add context for the CDC
 
 To allow the merchant to share its data with your services, you have to pair your module with a Cross Domain Component.
