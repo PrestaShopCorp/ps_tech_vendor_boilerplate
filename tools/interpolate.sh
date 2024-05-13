@@ -39,8 +39,8 @@ if [ ! -f "./.env" ]; then
   exit 1;
 fi
 
-# interpolate views/templates/admin/configure.tpl
-cp "${DIST_DIR}"/views/templates/admin/configure.tpl "${TMP_FILE}"
-env "$(cat ./.env | xargs)" envsubst < "${TMP_FILE}" > "${DIST_DIR}"/views/templates/admin/configure.tpl
+# interpolate views/templates/admin/configure.html.twig
+cp "${DIST_DIR}"/views/templates/admin/configure.html.twig "${TMP_FILE}"
+env "$(cat ./.env | xargs)" envsubst < "${TMP_FILE}" > "${DIST_DIR}"/views/templates/admin/configure.html.twig
 
 rm -f "${TMP_FILE}"

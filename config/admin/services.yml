@@ -1,0 +1,20 @@
+services:
+  _defaults:
+    public: true
+
+  ps_tech_vendor_boilerplate.module:
+    class: "Ps_tech_vendor_boilerplate"
+    factory: ["Module", "getInstanceByName"]
+    arguments:
+      - "ps_tech_vendor_boilerplate"
+
+  PrestaShop\Module\Ps_tech_vendor_boilerplate\Helper\ModuleHelper:
+    class: PrestaShop\Module\Ps_tech_vendor_boilerplate\Helper\ModuleHelper
+    arguments:
+      - "@ps_tech_vendor_boilerplate.module"
+
+  PrestaShop\Module\Ps_tech_vendor_boilerplate\Config\Env:
+    class: PrestaShop\Module\Ps_tech_vendor_boilerplate\Config\Env
+    arguments:
+      - "@ps_tech_vendor_boilerplate.module"
+  
