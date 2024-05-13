@@ -47,6 +47,7 @@ class Env
         if (!empty($_ENV[$key])) {
             return $_ENV[$key];
         }
+
         return '';
     }
 }
