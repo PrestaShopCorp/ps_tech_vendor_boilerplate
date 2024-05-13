@@ -12,3 +12,4 @@ ps_tech_vendor_boilerplate:
     _controller: 'PrestaShop\Module\Ps_tech_vendor_boilerplate\Controller\Admin\BoilerplateController::renderApp'
     _legacy_controller: 'BoilerplateController'
     _legacy_link: "BoilerplateController"
+    

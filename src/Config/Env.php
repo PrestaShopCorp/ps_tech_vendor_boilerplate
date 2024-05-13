@@ -47,9 +47,6 @@ class Env
         if (!empty($_ENV[$key])) {
             return $_ENV[$key];
         }
-
-        // TODO implement config class
-        // return constant(Config::class . '::' . $key);
         return '';
     }
 }

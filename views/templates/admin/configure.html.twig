@@ -77,7 +77,6 @@
         changeButtonTexte('Installing MBO module...');
         await installModule('mbo')
       } 
-      // Voir pour récupérer des données fraiche depuis la lib MBO pour les actions (isUpToDAte n'est pas dispo sans MBO installé)
       var actions = [];
       if(!eventbusModule.isInstalled) {
         actions.push({module: 'eventbus', action: 'install', label: 'Installing Eventbus module...', link: eventbusModule.linkInstall});

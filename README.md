@@ -41,7 +41,7 @@ if (!$moduleManager->isInstalled("ps_eventbus")) {
 
 ## Use the lib mbo_installer for managing dependencies
 
-Remember that a depency can be uninstall, disable or not up to date. To help the store to use a full functional package it's recommended to verify that yourself.
+Remember that a dependency can be uninstall, disable or not up to date. To help the store to use a full functional package it's recommended to verify that yourself.
 
 - **First had mbo_installer on composer.json**
 
@@ -89,7 +89,7 @@ public function installPsMbo(): Response
 
 - **Verify the dependencies**
 
-You can now access all the technical proprieties of the dependencies and return their state to your template:
+You can now access all the technical properties of the dependencies and return their state to your template:
 
 ```php
 /**
