@@ -8,7 +8,7 @@
 set -eu
 
 MODULE_NAME="ps_tech_vendor_boilerplate"
-PS_EVENTBUS_VERSION="v4.0.1"
+PS_EVENTBUS_VERSION="v4.0.3"
 
 error() {
   printf "\e[1;31m%s\e[0m\n" "${1:-Unknown error}"
