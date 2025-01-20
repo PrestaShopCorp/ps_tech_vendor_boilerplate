@@ -1,0 +1,54 @@
+services:
+  prestashop:
+    image: ${DOCKER_IMAGE_PRESTASHOP:?See e2e-env/.env.dist}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-sI",
+          "-H",
+          "Host: localhost:${HOST_PORT_BIND_PRESTASHOP}",
+          "http://localhost:80/index.php?fc=module&module=ps_eventbus&controller=apiHealthCheck",
+        ]
+      interval: 30s
+    volumes:
+      - ..:/var/www/html/modules/ps_tech_vendor_boilerplate:rw
+      - ./init-scripts:/tmp/init-scripts:ro
+      - /var/www/html/modules/ps_tech_vendor_boilerplate/vendor
+      - /var/www/html/modules/ps_tech_vendor_boilerplate/tools/vendor
+    environment:
+      - PS_DOMAIN=localhost:${HOST_PORT_BIND_PRESTASHOP}
+      - ON_INIT_SCRIPT_FAILURE=fail
+      - DEBUG_MODE=true
+      - INIT_SCRIPTS_USER=root
+    ports:
+      - ${HOST_PORT_BIND_PRESTASHOP:?See e2e-env/.env.dist}:80
+    networks:
+      - prestashop
+
+  mysql:
+    image: mariadb:${DOCKER_VERSION_MARIADB:?See e2e-env/.env.dist}
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect"]
+      interval: 3s
+      timeout: 10s
+      retries: 5
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=prestashop
+      - MYSQL_PASSWORD=prestashop
+      - MYSQL_ROOT_PASSWORD=prestashop
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=prestashop
+    ports:
+      - ${HOST_PORT_BIND_MYSQL:?See e2e-env/.env.dist}:3306
+    networks:
+      - prestashop
+
+networks:
+  prestashop:
+    driver: bridge

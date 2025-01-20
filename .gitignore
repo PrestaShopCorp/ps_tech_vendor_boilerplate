@@ -1,4 +1,4 @@
-.env*
+.env
 .config*.yml
 dist/
 vendor/
@@ -6,6 +6,7 @@ cache/
 prestashop/
 node_modules/
 phpstan-baseline.neon
+.phpactor.json
 
 # Editors
 *.iml
