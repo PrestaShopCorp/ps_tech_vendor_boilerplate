@@ -1,0 +1,119 @@
+{#**
+ * Copyright since 2007 PrestaShop SA and Contributors
+ * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License version 3.0
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * @author    PrestaShop SA and Contributors <contact@prestashop.com>
+ * @copyright Since 2007 PrestaShop SA and Contributors
+ * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License version 3.0
+ *#}
+
+ {% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block content %}
+  <div class="panel">
+    <h3><i class="icon icon-credit-card"></i> CloudSync module example</h3>
+    <p>
+        <strong>Here is my new generic module!</strong><br />
+        Thanks to PrestaShop, now I have a great module.<br />
+        I can configure it using the following configuration form.
+    </p>
+    <br />
+    <p>
+        This module will boost your sales!
+    </p>
+    <p>
+      {% if eventbusModule.isInstalled == false or accountsModule.isInstalled == false or mboModule.isInstalled == false or eventbusModule.isEnabled == false or accountsModule.isEnabled == false or mboModule.isEnabled == false or eventbusModule.isUpToDate == false %}
+        <div class="alert alert-danger d-flex justify-content-between">
+          <p class="flex-1">
+            <strong>Warning!</strong> Some actions are required.
+          </p>
+
+            <button class="btn btn-primary" onclick="performeActions()" id="actionButton">Performe Actions</button>
+        </div>
+      {% endif %}
+    </p>
+    <div id="prestashop-cloudsync"></div>
+  </div>
+{% endblock %}
+
+{% block stylesheets %}
+  <style>
+   
+  </style>
+{% endblock %}
+
+{% block javascripts %}
+  <script src="{{ mscUiUrl }}"></script>
+
+  <script>
+    var cdc = window.cloudSyncSharingConsent;
+    var contextPsAccounts = {{ contextPsAccounts|json_encode|raw }};
+    var contextPsEventbus = {{ contextPsEventbus|json_encode|raw }};
+    var eventbusModule = {{ eventbusModule|json_encode|raw }};
+    var accountsModule = {{ accountsModule|json_encode|raw }};
+    var mboModule = {{ mboModule|json_encode|raw }};
+
+    cdc.init('#prestashop-cloudsync');
+    cdc.on('OnboardingCompleted', (isCompleted) => {
+      console.log('OnboardingCompleted', isCompleted);
+    });
+    cdc.isOnboardingCompleted((isCompleted) => {
+      console.log('Onboarding is already Completed', isCompleted);
+    });
+
+    async function performeActions() {
+      document.getElementById('actionButton').disabled = true;
+      if(!mboModule.isInstalled) {
+        changeButtonTexte('Installing MBO module...');
+        await installModule('mbo')
+      } 
+      var actions = [];
+      if(!eventbusModule.isInstalled) {
+        actions.push({module: 'eventbus', action: 'install', label: 'Installing Eventbus module...', link: eventbusModule.linkInstall});
+      }
+      if(!accountsModule.isInstalled) {
+        actions.push({module: 'accounts', action: 'install', label: 'Installing Accounts module...', link: accountsModule.linkInstall});
+      }
+      if(!eventbusModule.isEnabled) {
+        actions.push({module: 'eventbus', action: 'enable', label: 'Enabling Eventbus module...', link: eventbusModule.linkEnable});
+      }
+      if(!accountsModule.isEnabled) {
+        actions.push({module: 'accounts', action: 'enable', label: 'Enabling Accounts module...', link: accountsModule.linkEnable});
+      }
+      if(!eventbusModule.isUpToDate) {
+        actions.push({module: 'eventbus', action: 'update', label: 'Updating Eventbus module...', link: eventbusModule.linkUpdate});
+      }
+      if(actions.length > 0) {
+        for (let i = 0; i < actions.length; i++) {
+          changeButtonTexte(actions[i].label);
+          await fetch(actions[i].link, {
+            method: 'POST',
+          })
+        }
+      }
+      location.reload();
+    }
+
+    function changeButtonTexte(text) {
+      document.getElementById('actionButton').innerHTML = text;
+    }
+
+    async function installModule(module) {
+      if(module === 'mbo') {
+        await fetch(mboModule.linkInstall, {
+          method: 'POST',
+        })
+      }
+    }
+  </script>
+{% endblock %}
