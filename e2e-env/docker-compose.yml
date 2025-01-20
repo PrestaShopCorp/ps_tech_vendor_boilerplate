@@ -4,13 +4,24 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-sI",
+          "-H",
+          "Host: localhost:${HOST_PORT_BIND_PRESTASHOP}",
+          "http://localhost:80/index.php?fc=module&module=ps_eventbus&controller=apiHealthCheck",
+        ]
+      interval: 30s
     volumes:
       - ..:/var/www/html/modules/ps_tech_vendor_boilerplate:rw
       - ./init-scripts:/tmp/init-scripts:ro
       - /var/www/html/modules/ps_tech_vendor_boilerplate/vendor
       - /var/www/html/modules/ps_tech_vendor_boilerplate/tools/vendor
     environment:
-      - PS_DOMAIN=localhost:8000
+      - PS_DOMAIN=localhost:${HOST_PORT_BIND_PRESTASHOP}
       - ON_INIT_SCRIPT_FAILURE=fail
       - DEBUG_MODE=true
       - INIT_SCRIPTS_USER=root
@@ -22,18 +33,10 @@ services:
   mysql:
     image: mariadb:${DOCKER_VERSION_MARIADB:?See e2e-env/.env.dist}
     healthcheck:
-      test:
-        [
-          "CMD",
-          "mysqladmin",
-          "ping",
-          "--host=localhost",
-          "--user=prestashop",
-          "--password=prestashop",
-        ]
-      interval: 1s
+      test: ["CMD", "healthcheck.sh", "--connect"]
+      interval: 3s
       timeout: 10s
-      retries: 30
+      retries: 5
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_USER=prestashop

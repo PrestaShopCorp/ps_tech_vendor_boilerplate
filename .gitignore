@@ -31,3 +31,4 @@ allure-report
 # Sonar
 .scannerwork
 sonar-project.properties
+.phpactor.json

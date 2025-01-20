@@ -8,7 +8,7 @@
 set -eu
 
 MODULE_NAME="ps_tech_vendor_boilerplate"
-PS_EVENTBUS_VERSION="v3.0.8"
+PS_EVENTBUS_VERSION="v4.0.1"
 
 error() {
   printf "\e[1;31m%s\e[0m\n" "${1:-Unknown error}"
@@ -30,13 +30,11 @@ ps_accounts_mock_install() {
 }
 
 module_install() {
-  # Some explanations are required here:
-  #
   # If you look closer to the ./docker-compose.yml prestashop service, you will
   # see multiple mounts on the same files:
   # - ..:/var/www/html/modules/ps_tech_vendor_boilerplate:rw        => mount all the sources
-  # - /var/www/html/modules/ps_tech_vendor_boilerplate/vendor       => void the specific vendor dir, makint it empty
-  # - /var/www/html/modules/ps_tech_vendor_boilerplate/tools/vendor => void the specific vendor dev dir, making it empty
+  # - /var/www/html/modules/ps_tech_vendor_boilerplate/vendor       => shadow the specific vendor dir, making it empty
+  # - /var/www/html/modules/ps_tech_vendor_boilerplate/tools/vendor => shadow the specific vendor dev dir, making it empty
   #
   # That said, we now want our container to have RW access on these directories,
   # and to install the required composer dependencies for the module to work.
@@ -65,4 +63,3 @@ ps_eventbus_Install() {
 ps_accounts_mock_install
 ps_eventbus_Install
 module_install
-
