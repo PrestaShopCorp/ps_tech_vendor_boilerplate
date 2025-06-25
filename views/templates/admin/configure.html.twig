@@ -42,7 +42,10 @@
         </div>
       {% endif %}
     </p>
+    <prestashop-accounts></prestashop-accounts>
+    <br />
     <div id="prestashop-cloudsync"></div>
+
   </div>
 {% endblock %}
 
@@ -54,7 +57,7 @@
 
 {% block javascripts %}
   <script src="{{ mscUiUrl }}"></script>
-
+  <script src="https://unpkg.com/prestashop_accounts_vue_components@5" defer></script>
   <script>
     var cdc = window.cloudSyncSharingConsent;
     var contextPsAccounts = {{ contextPsAccounts|json_encode|raw }};
@@ -62,6 +65,10 @@
     var eventbusModule = {{ eventbusModule|json_encode|raw }};
     var accountsModule = {{ accountsModule|json_encode|raw }};
     var mboModule = {{ mboModule|json_encode|raw }};
+    
+    addEventListener("DOMContentLoaded", (event) => {
+      window.psaccountsVue.init();
+    });
 
     cdc.init('#prestashop-cloudsync');
     cdc.on('OnboardingCompleted', (isCompleted) => {
